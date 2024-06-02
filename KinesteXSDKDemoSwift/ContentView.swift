@@ -18,7 +18,7 @@ struct ContentView: View {
     @State var selectedWorkout = "Fitness Lite"
     @State var selectedChallenge = "Squats"
     @State var selectedPlan = "Full Cardio"
-    @State var selectedOption = "Complete"
+    @State var selectedOption = "Complete UX"
     @State var planCategory: PlanCategory = .Cardio
     // for camera component
     @State var reps = 0
