@@ -14,6 +14,8 @@
 		ABAEB3492C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB3482C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftTests.swift */; };
 		ABAEB3532C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB3522C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITests.swift */; };
 		ABAEB3552C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB3542C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITestsLaunchTests.swift */; };
+		ABAEB36C2C0CD4E200BD90AD /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = ABAEB36B2C0CD4E200BD90AD /* KinesteXAIFramework */; };
+		ABAEB36E2C0CD9E100BD90AD /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB36D2C0CD9E100BD90AD /* RadioButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,7 @@
 		ABAEB34E2C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KinesteXSDKDemoSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABAEB3522C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinesteXSDKDemoSwiftUITests.swift; sourceTree = "<group>"; };
 		ABAEB3542C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KinesteXSDKDemoSwiftUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		ABAEB36D2C0CD9E100BD90AD /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABAEB36C2C0CD4E200BD90AD /* KinesteXAIFramework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +104,7 @@
 				ABAEB33A2C0CBDEA00BD90AD /* Assets.xcassets */,
 				ABAEB33C2C0CBDEA00BD90AD /* KinesteXSDKDemoSwift.entitlements */,
 				ABAEB33D2C0CBDEA00BD90AD /* Preview Content */,
+				ABAEB36D2C0CD9E100BD90AD /* RadioButton.swift */,
 			);
 			path = KinesteXSDKDemoSwift;
 			sourceTree = "<group>";
@@ -145,6 +150,9 @@
 			dependencies = (
 			);
 			name = KinesteXSDKDemoSwift;
+			packageProductDependencies = (
+				ABAEB36B2C0CD4E200BD90AD /* KinesteXAIFramework */,
+			);
 			productName = KinesteXSDKDemoSwift;
 			productReference = ABAEB3332C0CBDE800BD90AD /* KinesteXSDKDemoSwift.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +225,9 @@
 				Base,
 			);
 			mainGroup = ABAEB32A2C0CBDE800BD90AD;
+			packageReferences = (
+				ABAEB36A2C0CD4E200BD90AD /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */,
+			);
 			productRefGroup = ABAEB3342C0CBDE800BD90AD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -259,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABAEB36E2C0CD9E100BD90AD /* RadioButton.swift in Sources */,
 				ABAEB3392C0CBDE800BD90AD /* ContentView.swift in Sources */,
 				ABAEB3372C0CBDE800BD90AD /* KinesteXSDKDemoSwiftApp.swift in Sources */,
 			);
@@ -617,6 +629,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ABAEB36A2C0CD4E200BD90AD /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/KinesteX/KinesteX-SDK-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ABAEB36B2C0CD4E200BD90AD /* KinesteXAIFramework */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ABAEB36A2C0CD4E200BD90AD /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */;
+			productName = KinesteXAIFramework;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ABAEB32B2C0CBDE800BD90AD /* Project object */;
 }
