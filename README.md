@@ -114,37 +114,8 @@ Creates the main view with personalized AI workout plans. Keeps track of the per
 ## Integration Option - Challenge
       
  **Launching the view**:
-   - To display KinesteX Challenge, call `createChallengeView` in KinesteXAIFramework:
-
-   ```Swift
-    // isLoading is a State variable that can be used to display a loading screen before the webview loads
-    KinesteXAIFramework.createChallengeView(apiKey: "your key", companyName: "your company", userId: "your userId", exercise: String = "Squats", countdown: Int, isLoading: $isLoading, onMessageReceived: { message in
-                        // our callback function to let you know of any real-time changes and user activity
-                        switch message {
-                            
-                        case .kinestex_launched(let data):
-                            print("KinesteX Launched: \(data)")
-                        case .finished_workout(let data):
-                            print("Workout Finished: \(data)")
-                            // Handle other cases as needed
-                        case .exit_kinestex(let data):
-                             // user wants to close KinesteX view, so dismiss the view
-                            dismiss()
-                        default:
-                            break
-                        }
-                        
-                    })
-                    // OPTIONAL: Display loading screen as an overlay see above for an example
-                    
-   
-   ```
-## Integration Option - Challenge
-      
- **Launching the view**:
-   - Recommended challenges: 
-    ```
-        "Squats",
+   - Recommended challenge exercises: 
+    ```"Squats",
         "Jumping Jack",
         "Burpee",
         "Push Ups",
@@ -156,8 +127,7 @@ Creates the main view with personalized AI workout plans. Keeps track of the per
         "Basic Crunch",
         "Sprinters Sit Ups",
         "Low Jacks",
-        "Twisted Mountain Climber"
-    ```
+        "Twisted Mountain Climber"```
    - To display KinesteX Challenge, call `createChallengeView` in KinesteXAIFramework:
 
    ```Swift
@@ -208,7 +178,7 @@ Creates the main view with personalized AI workout plans. Keeps track of the per
 
    ```Swift
     // isLoading is a State variable that can be used to display a loading screen before the webview loads
-            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", workoutName: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createPlanView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", planName: selectedPlan, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
