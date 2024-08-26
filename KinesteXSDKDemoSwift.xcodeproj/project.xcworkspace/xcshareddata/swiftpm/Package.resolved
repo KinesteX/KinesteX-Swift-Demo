@@ -1,14 +1,15 @@
 {
+  "originHash" : "822b2edce7ff5da1c245ede6c01bd2bbb09c6d7b5cf5d19b08ea15af83d2d256",
   "pins" : [
     {
       "identity" : "kinestex-sdk-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KinesteX/KinesteX-SDK-Swift.git",
       "state" : {
-        "revision" : "0764a99ff74390fa8a9ae33326960db42874a9c8",
-        "version" : "0.1.8"
+        "revision" : "dd7796bc102f9fb89b1175c656620045067fbbfd",
+        "version" : "1.0.0"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

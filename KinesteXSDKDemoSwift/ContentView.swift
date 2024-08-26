@@ -17,6 +17,23 @@ struct ContentView: View {
     let company = ""
     @State var selectedWorkout = "Fitness Lite"
     @State var selectedChallenge = "Squats"
+    
+//    let recommendedChallenges = [
+//        "Squats",
+//        "Jumping Jack",
+//        "Burpee",
+//        "Push Ups",
+//        "Lunges",
+//        "Reverse Lunges",
+//        "Knee Push Ups",
+//        "Hip Thrust",
+//        "Squat Thrusts",
+//        "Basic Crunch",
+//        "Sprinters Sit Ups",
+//        "Low Jacks",
+//        "Twisted Mountain Climber"
+//    ]
+
     @State var selectedPlan = "Full Cardio"
     @State var selectedOption = "Complete UX"
     @State var planCategory: PlanCategory = .Cardio
@@ -175,7 +192,7 @@ struct ContentView: View {
     var kinestexView: some View {
    
         if selectedOption == "Complete UX" {
-            KinesteXAIFramework.createMainView(apiKey: apiKey, companyName: company, userId: "user1", planCategory: planCategory, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createMainView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", planCategory: planCategory, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -187,7 +204,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Plan" {
-            KinesteXAIFramework.createPlanView(apiKey: apiKey, companyName: company, userId: "user1", planName: selectedPlan, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createPlanView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", planName: selectedPlan, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -199,7 +216,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Workout" {
-            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: "user1", workoutName: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", workoutName: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -211,7 +228,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Challenge" {
-            KinesteXAIFramework.createChallengeView(apiKey: apiKey, companyName: company, userId: "user1", exercise: selectedChallenge, countdown: 100, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createChallengeView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", exercise: selectedChallenge, countdown: 100, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -224,12 +241,9 @@ struct ContentView: View {
             })
         } else {
             ZStack {
-                KinesteXAIFramework.createCameraComponent(apiKey: apiKey, companyName: company, userId: "user1", exercises: ["Squats"], currentExercise: "Squats", user: nil, isLoading: $isLoading, onMessageReceived: {
+                KinesteXAIFramework.createCameraComponent(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", exercises: ["Squats"], currentExercise: "Squats", user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
-                    case .exit_kinestex(_):
-                        showKinesteX = false
-                        break
                     case .reps(let value):
                         reps = value["value"] as? Int ?? 0
                         break
