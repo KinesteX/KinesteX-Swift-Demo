@@ -4,17 +4,19 @@
 //
 //  Created by Vladimir Shetnikov on 6/2/24.
 //
-import KinesteXAIFramework
+
 import SwiftUI
+import KinesteXAIFramework
 
 struct ContentView: View {
     @State var showKinesteX = false
+    @State var showExplanation = false
     @State var isLoading = false
     @State var isExpanded = false
     @State var isExpandedInner = false
 
-    let apiKey = "" // store this key securely
-    let company = ""
+    let apiKey = "YOUR API KEY" // store this key securely
+    let company = "YOUR COMPANY NAME"
     @State var selectedWorkout = "Fitness Lite"
     @State var selectedChallenge = "Squats"
     
@@ -266,8 +268,33 @@ struct ContentView: View {
         
     }
     var body: some View {
-  
-            if showKinesteX {
+        
+        if showExplanation {
+            
+            ZStack{
+                if #available(iOS 14, *) {
+                    KinesteXAIFramework.createHowToView {
+                        showKinesteX.toggle()
+                    }
+                }
+                VStack {
+                    HStack {
+                        
+                        Button(action: {
+                            showExplanation.toggle()
+                        }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.gray)
+                                .font(.headline)
+                                .padding()
+                        }
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
+         
+        } else if showKinesteX {
               kinestexView.frame(maxWidth: .infinity, maxHeight: .infinity) // Fullscreen
                    
             } else {
@@ -285,6 +312,11 @@ struct ContentView: View {
                         challengeCustomization
                     } else {
                         
+                    }
+                    Button(action: {
+                        showExplanation.toggle()
+                    }) {
+                        Text("Play Explanation Video")
                     }
                     Spacer()
                     
