@@ -274,7 +274,7 @@ struct ContentView: View {
             ZStack{
                 if #available(iOS 14, *) {
                     KinesteXAIFramework.createHowToView {
-                        showKinesteX.toggle()
+                        showExplanation.toggle()
                     }
                 }
                 VStack {
