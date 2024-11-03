@@ -11,6 +11,8 @@ import SwiftUI
 struct KinesteXSDKDemoSwiftApp: App {
     var body: some Scene {
         WindowGroup {
+            // FOR API DEMO
+            // APIDemoView()
             ContentView()
         }
     }

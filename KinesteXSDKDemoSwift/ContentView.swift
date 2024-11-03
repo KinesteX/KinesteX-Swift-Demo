@@ -17,9 +17,10 @@ struct ContentView: View {
 
     let apiKey = "YOUR API KEY" // store this key securely
     let company = "YOUR COMPANY NAME"
+    let userId = "YOUR USER ID"
     @State var selectedWorkout = "Fitness Lite"
     @State var selectedChallenge = "Squats"
-    
+    @State var selectedExperience = "Box"
 //    let recommendedChallenges = [
 //        "Squats",
 //        "Jumping Jack",
@@ -36,6 +37,7 @@ struct ContentView: View {
 //        "Twisted Mountain Climber"
 //    ]
 
+    
     @State var selectedPlan = "Full Cardio"
     @State var selectedOption = "Complete UX"
     @State var planCategory: PlanCategory = .Cardio
@@ -142,6 +144,28 @@ struct ContentView: View {
         .padding(.horizontal)
         
     }
+    @ViewBuilder
+    var experienceCustomization: some View {
+   
+        DisclosureGroup("Select Experience", isExpanded: $isExpandedInner) {
+            VStack {
+                RadioButton(title: "Box", isSelected: selectedExperience == "Box", action: {
+                    selectedExperience = "Box"
+ 
+                })
+             
+                
+            }
+        }
+        .accentColor(.white)
+        .padding()
+        .background(Color.gray.opacity(0.3).cornerRadius(10))
+        .foregroundColor(.white)
+        .font(.headline)
+        .padding(.horizontal)
+        
+    }
+    
     
     @ViewBuilder
     var challengeCustomization: some View {
@@ -183,6 +207,9 @@ struct ContentView: View {
             RadioButton(title: "Challenge", isSelected: selectedOption == "Challenge", action: {
                 selectedOption = "Challenge"
             })
+            RadioButton(title: "Experience", isSelected: selectedOption == "Experience", action: {
+                selectedOption = "Experience"
+            })
             RadioButton(title: "Camera", isSelected: selectedOption == "Camera", action: {
                 selectedOption = "Camera"
             })
@@ -194,7 +221,7 @@ struct ContentView: View {
     var kinestexView: some View {
    
         if selectedOption == "Complete UX" {
-            KinesteXAIFramework.createMainView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", planCategory: planCategory, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createMainView(apiKey: apiKey, companyName: company, userId: userId, planCategory: planCategory, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -206,7 +233,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Plan" {
-            KinesteXAIFramework.createPlanView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", planName: selectedPlan, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createPlanView(apiKey: apiKey, companyName: company, userId: userId, planName: selectedPlan, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -218,7 +245,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Workout" {
-            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", workoutName: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: userId, workoutName: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -230,7 +257,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Challenge" {
-            KinesteXAIFramework.createChallengeView(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", exercise: selectedChallenge, countdown: 100, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createChallengeView(apiKey: apiKey, companyName: company, userId: userId, exercise: selectedChallenge, countdown: 100, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -241,9 +268,22 @@ struct ContentView: View {
                         break
                     }
             })
-        } else {
+        } else if selectedOption == "Experience" {
+            KinesteXAIFramework.createExperienceView(apiKey: apiKey, companyName: company, userId: userId, experience: selectedExperience, user: nil, isLoading: $isLoading, onMessageReceived: {
+                message in
+                switch message {
+                case .exit_kinestex(_):
+                   showKinesteX = false
+                    break
+               // handle all other cases accordingly
+                default:
+                    break
+                }
+            })
+        }
+        else {
             ZStack {
-                KinesteXAIFramework.createCameraComponent(apiKey: apiKey, companyName: company, userId: "YOUR USER ID", exercises: ["Squats"], currentExercise: "Squats", user: nil, isLoading: $isLoading, onMessageReceived: {
+                KinesteXAIFramework.createCameraComponent(apiKey: apiKey, companyName: company, userId: userId, exercises: ["Squats"], currentExercise: "Squats", user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .reps(let value):
@@ -270,29 +310,26 @@ struct ContentView: View {
     var body: some View {
         
         if showExplanation {
-            
-            ZStack{
-                if #available(iOS 14, *) {
-                    KinesteXAIFramework.createHowToView {
-                        showExplanation.toggle()
-                    }
-                }
-                VStack {
-                    HStack {
-                        
-                        Button(action: {
-                            showExplanation.toggle()
-                        }) {
-                            Image(systemName: "xmark")
-                                .foregroundColor(.gray)
-                                .font(.headline)
-                                .padding()
+            NavigationView {
+                            ZStack {
+                                if #available(iOS 14, *) {
+                                    KinesteXAIFramework.createHowToView(videoURL: "https://cdn.kinestex.com/SDK%2Fhow-to-video%2Ffinal%20light%20theme.mp4?alt=media&token=a0284982-f17b-4415-b109-36a7c623f982") {
+                                        showExplanation.toggle()
+                                    }
+                                   
+                                }
+
+                            }
+                            .navigationBarTitle("How it works", displayMode: .inline) // Custom title for the video view
+                            .navigationBarItems(leading: Button(action: {
+                                showExplanation.toggle() // Toggle back to the previous view
+                            }) {
+                                Image(systemName: "chevron.backward")
+                                    .foregroundColor(.gray)
+                                    .font(.headline)
+                            })
                         }
-                        Spacer()
-                    }
-                    Spacer()
-                }
-            }
+                        .navigationViewStyle(StackNavigationViewStyle())
          
         } else if showKinesteX {
               kinestexView.frame(maxWidth: .infinity, maxHeight: .infinity) // Fullscreen
@@ -310,8 +347,8 @@ struct ContentView: View {
                         workoutCustomization
                     } else if selectedOption == "Challenge" {
                         challengeCustomization
-                    } else {
-                        
+                    } else if selectedOption == "Experience"{
+                        experienceCustomization
                     }
                     Button(action: {
                         showExplanation.toggle()

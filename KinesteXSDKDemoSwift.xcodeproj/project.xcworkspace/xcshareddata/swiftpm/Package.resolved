@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KinesteX/KinesteX-SDK-Swift.git",
       "state" : {
-        "revision" : "17b7dbf6d6c3dc159209e0e06b70ea537112d664",
-        "version" : "1.0.2"
+        "revision" : "34f491b52daaf3ae85d6fc152a2847419afac614",
+        "version" : "1.0.3"
       }
     }
   ],
