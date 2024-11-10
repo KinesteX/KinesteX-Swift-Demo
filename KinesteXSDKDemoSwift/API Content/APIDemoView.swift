@@ -9,20 +9,33 @@ struct APIDemoView: View {
         
         var id: String { self.rawValue }
     }
-    
+    enum FilterType: String, CaseIterable, Identifiable {
+        case none = "None"
+        case category = "Category"
+        case bodyParts = "Body Parts"
+        
+        var id: String { self.rawValue }
+    }
+    @State private var selectedBodyParts: Set<BodyPart> = []
+
     // State variables
     @State private var selectedContentType: ContentType = .workout
+    @State private var selectedFilterType:  FilterType = .none
     @State private var selectedSearchType: SearchType = .findById
     @State private var searchText: String = ""
     @State private var fetchedWorkout: WorkoutModel?
+    @State private var fetchedWorkouts: [WorkoutModel]?
+    @State private var fetchedExercises: [ExerciseModel]?
+    @State private var fetchedPlans: [PlanModel]?
     @State private var fetchedExercise: ExerciseModel?
     @State private var presentDataView = false
     @State private var showAlert = false
     @State private var alertMessage = ""
+    
     @State private var isLoading = false
     @State private var fetchedPlan: PlanModel?
-    let apiKey = "YOUR API KEY" // store this key securely
-    let company = "YOUR COMPANY NAME"
+    let apiKey = "apiKey" // store this key securely
+    let company = "companyName"
     
     var body: some View {
         VStack(spacing: 20) {
@@ -38,38 +51,96 @@ struct APIDemoView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
             }
-            
-            // Search Type Picker
+            // Filter By Type Picker
             VStack(alignment: .leading) {
-                Text("Search By:")
+                Text("Filter By:")
                     .font(.headline)
                 
-                Picker("Search Type", selection: $selectedSearchType) {
-                    ForEach(SearchType.allCases) { type in
+                Picker("Filter Type", selection: $selectedFilterType) {
+                    ForEach(FilterType.allCases) { type in
                         Text(type.rawValue).tag(type)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
             }
             
-            // Search Field
-            VStack(alignment: .leading) {
-                Text(selectedSearchType == .findById ? "Enter \(selectedContentType.rawValue) ID:" : "Enter \(selectedContentType.rawValue) Title:")
-                    .font(.headline)
-                
-                TextField(
-                    selectedSearchType == .findById ? "Enter ID" : "Enter Title",
-                    text: $searchText
-                )
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
+            
+            if selectedFilterType == .category {
+                // Search Field
+                VStack(alignment: .leading) {
+                    Text("Enter category")
+                        .font(.headline)
+                    
+                    TextField(
+                        "Enter category",
+                        text: $searchText
+                    )
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                }
+            } else if selectedFilterType == .bodyParts {
+                // Show selectable buttons for BodyPart
+                  VStack(alignment: .leading) {
+                      Text("Select Body Parts:")
+                          .font(.headline)
+                      
+                      // Use a ScrollView in case there are many body parts
+                      ScrollView(.horizontal, showsIndicators: false) {
+                          HStack {
+                              ForEach(BodyPart.allCases, id: \.self) { bodyPart in
+                                  Button(action: {
+                                      if selectedBodyParts.contains(bodyPart) {
+                                          selectedBodyParts.remove(bodyPart)
+                                      } else {
+                                          selectedBodyParts.insert(bodyPart)
+                                      }
+                                  }) {
+                                      Text(bodyPart.rawValue)
+                                          .padding(8)
+                                          .background(selectedBodyParts.contains(bodyPart) ? Color.blue : Color.gray)
+                                          .foregroundColor(.white)
+                                          .cornerRadius(8)
+                                  }
+                              }
+                          }
+                      }
+                  }
+            }
+            else {
+                // Search Type Picker
+                VStack(alignment: .leading) {
+                    Text("Search By:")
+                        .font(.headline)
+                    
+                    Picker("Search Type", selection: $selectedSearchType) {
+                        ForEach(SearchType.allCases) { type in
+                            Text(type.rawValue).tag(type)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+            
+                // Search Field
+                VStack(alignment: .leading) {
+                    Text(selectedSearchType == .findById ? "Enter \(selectedContentType.rawValue) ID:" : "Enter \(selectedContentType.rawValue) Title:")
+                        .font(.headline)
+                    
+                    TextField(
+                        selectedSearchType == .findById ? "Enter ID" : "Enter Title",
+                        text: $searchText
+                    )
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+                }
             }
             
             // Search Button
             Button(action: {
-                if searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                if searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && selectedBodyParts.isEmpty {
                     alertMessage = "\(selectedSearchType == .findById ? "ID" : "Title") cannot be empty."
                     showAlert = true
                 } else {
@@ -78,14 +149,32 @@ struct APIDemoView: View {
                     fetchedPlan = nil
                     Task {
                         isLoading = true
-                        await KinesteXAIFramework.fetchAPIContentData(apiKey: apiKey, companyName: company,contentType: selectedContentType, id: selectedSearchType == .findById ? searchText : nil, title: selectedSearchType == .findByTitle ? searchText : nil) { result in
+                        // sending request based on what is selected in the UI
+                        await KinesteXAIFramework.fetchAPIContentData(apiKey: apiKey, companyName: company,contentType: selectedContentType,
+                                                                      id: (selectedFilterType == .none && selectedSearchType == .findById) ? searchText : nil,
+                                                                      title: (selectedFilterType == .none && selectedSearchType == .findByTitle) ? searchText : nil,
+                                                                      category: selectedFilterType == .category ? searchText : nil,
+                                                                      limit: 5, // limit to 5 
+                                                                      bodyParts: selectedFilterType == .bodyParts ? Array(selectedBodyParts) : nil) { result in
                             switch result {
                             case .workout(let workout):
                                 fetchedWorkout = workout
+                                
+                            case .workouts(let workouts):
+                                fetchedWorkouts = workouts.workouts
+
+                            case .plans(let plans):
+                                
+                                fetchedPlans = plans.plans
+                            case .exercises(let exercises):
+                                fetchedExercises = exercises.exercises
+                                
                             case .plan(let plan):
                                 fetchedPlan = plan
+                                
                             case .exercise(let exercise):
                                 fetchedExercise = exercise
+                                
                             case .error(let errorMessage):
                                 alertMessage = errorMessage
                                 showAlert = true
@@ -99,6 +188,12 @@ struct APIDemoView: View {
                             presentDataView = true
                         } else if fetchedPlan != nil {
                             presentDataView = true
+                        } else if fetchedWorkouts != nil {
+                            presentDataView = true
+                        } else if fetchedPlans != nil {
+                            presentDataView = true
+                        } else if fetchedExercises != nil {
+                            presentDataView = true
                         }
                         
                     }
@@ -111,10 +206,10 @@ struct APIDemoView: View {
                     Text("View \(selectedContentType.rawValue)")
                 }
             }
-            .disabled(isLoading || searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            .disabled(isLoading || (searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && selectedBodyParts.isEmpty))
             .padding()
             .frame(maxWidth: .infinity)
-            .background(searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? Color.gray : Color.blue)
+            .background((searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && selectedBodyParts.isEmpty) ? Color.gray : Color.blue)
             .foregroundColor(.white)
             .cornerRadius(10)
             .padding(.horizontal)
@@ -131,6 +226,9 @@ struct APIDemoView: View {
                             ExerciseCardView(exercise: fetchedExercise, index: 0)
                         } else if let plan = fetchedPlan {
                             PlanDetailView(plan: plan)
+                        }
+                        else {
+                            ContentListView(workouts: fetchedWorkouts, exercises: fetchedExercises, plans: fetchedPlans, contentType: selectedContentType)
                         }
                     }
                         .navigationTitle("Content Details")
@@ -154,10 +252,4 @@ struct APIDemoView: View {
     
     // MARK: - Network Request Function
 
-}
-
-struct APIDemoView_Previews: PreviewProvider {
-    static var previews: some View {
-        APIDemoView()
-    }
 }

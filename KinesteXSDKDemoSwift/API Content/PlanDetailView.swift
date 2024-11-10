@@ -14,13 +14,16 @@ struct HeaderView: View {
                 .padding()
             Text("Category Levels:")
                                    .font(.headline)
+                                   .foregroundColor(.white)
             ForEach(categories.sorted(by: >), id: \.key) { key, value in
                                    HStack {
                                        Text("\(key):")
                                            .fontWeight(.semibold)
+                                           .foregroundColor(.white)
                                        Spacer()
                                        Text("\(value)")
                                            .foregroundColor(.blue)
+                                           .foregroundColor(.white)
                                    }
                                    .padding(.horizontal)
                                    .padding(.vertical, 5)
@@ -121,11 +124,8 @@ struct PlanDetailView: View {
                                                     VStack(spacing: 15) {
                                                         ForEach(workouts, id: \.id) { workout in
                                                                 
-                                                            Text(workout.title)
-                                                                .font(.headline)
-                                                             
                                                             Text("ID: \(workout.id)")
-                                                                    .font(.caption)
+                                                                .font(.headline)
                                                              
                                                             
                                                         }

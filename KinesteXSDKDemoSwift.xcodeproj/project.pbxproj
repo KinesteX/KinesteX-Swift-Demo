@@ -9,13 +9,15 @@
 /* Begin PBXBuildFile section */
 		AB1795192CB6CA8D005FEA01 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB1795182CB6CA8D005FEA01 /* KinesteXAIFramework */; };
 		AB17951C2CB6CB0E005FEA01 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB17951B2CB6CB0E005FEA01 /* KinesteXAIFramework */; };
+		AB32F9472CDF8AA4005B8E81 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB32F9462CDF8AA4005B8E81 /* KinesteXAIFramework */; };
+		AB4797412CDFC49F00387B21 /* ContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4797402CDFC49F00387B21 /* ContentListView.swift */; };
 		AB7F8A642CD7AF92003B8EFA /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB7F8A632CD7AF92003B8EFA /* KinesteXAIFramework */; };
 		AB7F8A662CD7B444003B8EFA /* APIDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A652CD7B444003B8EFA /* APIDemoView.swift */; };
 		AB7F8A6A2CD7F3E9003B8EFA /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A692CD7F3E9003B8EFA /* WorkoutDetailView.swift */; };
 		AB7F8A6C2CD7F401003B8EFA /* ExerciseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A6B2CD7F401003B8EFA /* ExerciseCardView.swift */; };
 		AB7F8A6E2CD7F7E5003B8EFA /* WrapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A6D2CD7F7E5003B8EFA /* WrapItem.swift */; };
 		AB7F8A702CD81658003B8EFA /* PlanDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A6F2CD81658003B8EFA /* PlanDetailView.swift */; };
-		AB7F8A742CD835A4003B8EFA /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB7F8A732CD835A4003B8EFA /* KinesteXAIFramework */; };
+		AB9D7DB22CE0D54200413E6D /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB9D7DB12CE0D54200413E6D /* KinesteXAIFramework */; };
 		ABAEB3372C0CBDE800BD90AD /* KinesteXSDKDemoSwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB3362C0CBDE800BD90AD /* KinesteXSDKDemoSwiftApp.swift */; };
 		ABAEB3392C0CBDE800BD90AD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB3382C0CBDE800BD90AD /* ContentView.swift */; };
 		ABAEB33B2C0CBDEA00BD90AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABAEB33A2C0CBDEA00BD90AD /* Assets.xcassets */; };
@@ -45,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB4797402CDFC49F00387B21 /* ContentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentListView.swift; sourceTree = "<group>"; };
 		AB7F8A652CD7B444003B8EFA /* APIDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDemoView.swift; sourceTree = "<group>"; };
 		AB7F8A692CD7F3E9003B8EFA /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
 		AB7F8A6B2CD7F401003B8EFA /* ExerciseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCardView.swift; sourceTree = "<group>"; };
@@ -69,9 +72,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB9D7DB22CE0D54200413E6D /* KinesteXAIFramework in Frameworks */,
 				ABCB85762CB6CBE3000A0065 /* KinesteXAIFramework in Frameworks */,
 				AB17951C2CB6CB0E005FEA01 /* KinesteXAIFramework in Frameworks */,
-				AB7F8A742CD835A4003B8EFA /* KinesteXAIFramework in Frameworks */,
+				AB32F9472CDF8AA4005B8E81 /* KinesteXAIFramework in Frameworks */,
 				AB7F8A642CD7AF92003B8EFA /* KinesteXAIFramework in Frameworks */,
 				AB1795192CB6CA8D005FEA01 /* KinesteXAIFramework in Frameworks */,
 			);
@@ -102,6 +106,7 @@
 				AB7F8A692CD7F3E9003B8EFA /* WorkoutDetailView.swift */,
 				AB7F8A6D2CD7F7E5003B8EFA /* WrapItem.swift */,
 				AB7F8A6B2CD7F401003B8EFA /* ExerciseCardView.swift */,
+				AB4797402CDFC49F00387B21 /* ContentListView.swift */,
 			);
 			path = "API Content";
 			sourceTree = "<group>";
@@ -186,7 +191,8 @@
 				AB17951B2CB6CB0E005FEA01 /* KinesteXAIFramework */,
 				ABCB85752CB6CBE3000A0065 /* KinesteXAIFramework */,
 				AB7F8A632CD7AF92003B8EFA /* KinesteXAIFramework */,
-				AB7F8A732CD835A4003B8EFA /* KinesteXAIFramework */,
+				AB32F9462CDF8AA4005B8E81 /* KinesteXAIFramework */,
+				AB9D7DB12CE0D54200413E6D /* KinesteXAIFramework */,
 			);
 			productName = KinesteXSDKDemoSwift;
 			productReference = ABAEB3332C0CBDE800BD90AD /* KinesteXSDKDemoSwift.app */;
@@ -261,7 +267,7 @@
 			);
 			mainGroup = ABAEB32A2C0CBDE800BD90AD;
 			packageReferences = (
-				AB7F8A722CD835A4003B8EFA /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */,
+				AB9D7DB02CE0D54200413E6D /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */,
 			);
 			productRefGroup = ABAEB3342C0CBDE800BD90AD /* Products */;
 			projectDirPath = "";
@@ -313,6 +319,7 @@
 				AB7F8A662CD7B444003B8EFA /* APIDemoView.swift in Sources */,
 				AB7F8A6C2CD7F401003B8EFA /* ExerciseCardView.swift in Sources */,
 				ABAEB3372C0CBDE800BD90AD /* KinesteXSDKDemoSwiftApp.swift in Sources */,
+				AB4797412CDFC49F00387B21 /* ContentListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,12 +682,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AB7F8A722CD835A4003B8EFA /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */ = {
+		AB9D7DB02CE0D54200413E6D /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/KinesteX/KinesteX-SDK-Swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.3;
+				minimumVersion = 1.0.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -694,13 +701,17 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = KinesteXAIFramework;
 		};
+		AB32F9462CDF8AA4005B8E81 /* KinesteXAIFramework */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KinesteXAIFramework;
+		};
 		AB7F8A632CD7AF92003B8EFA /* KinesteXAIFramework */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = KinesteXAIFramework;
 		};
-		AB7F8A732CD835A4003B8EFA /* KinesteXAIFramework */ = {
+		AB9D7DB12CE0D54200413E6D /* KinesteXAIFramework */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AB7F8A722CD835A4003B8EFA /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */;
+			package = AB9D7DB02CE0D54200413E6D /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */;
 			productName = KinesteXAIFramework;
 		};
 		ABCB85752CB6CBE3000A0065 /* KinesteXAIFramework */ = {
