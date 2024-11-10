@@ -329,7 +329,7 @@ struct APIDemoView: View {
 fetchAPIContentData(apiKey: "yourApiKey",
                     companyName: "MyCompany",
                     contentType: .workout,
-                    category: "Cardio",
+                    category: "Fitness", // another available parameter "Rehabilitation"
                     limit: 5) { result in
     switch result {
     case .workouts(let workoutsResponse):
