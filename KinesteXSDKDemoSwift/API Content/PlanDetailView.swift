@@ -125,8 +125,26 @@ struct PlanDetailView: View {
                                                         ForEach(workouts, id: \.id) { workout in
                                                                 
                                                             Text("ID: \(workout.id)")
-                                                                .font(.headline)
-                                                             
+                                                                .font(.caption)
+                                                            HStack {
+                                                                VStack{
+                                                                    Text("Title: \(workout.title)").font(.subheadline)
+                                                                 
+                                                                    Text("Avg Cals: \(workout.calories ?? 0)").font(.caption)
+                                                                    
+                                                                    Text("Total minutes: \(workout.total_minutes)").font(.caption)
+                                                                }
+                                                                AsyncImage(url: URL(string: workout.imgURL)) { image in
+                                                                    image
+                                                                        .resizable()
+                                                                        .aspectRatio(contentMode: .fit)
+                                                                } placeholder: {
+                                                                    Color.gray.opacity(0.3)
+                                                                }
+                                                                .frame(height: 100)
+                                
+                                                            }
+                                                            
                                                             
                                                         }
                                                     }
