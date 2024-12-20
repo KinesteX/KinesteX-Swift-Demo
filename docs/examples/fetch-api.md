@@ -1,28 +1,30 @@
+### Example: APIDemoView with Filtering
+
+Below is an example of how to use KinesteXAIFramework in a SwiftUI view to fetch and display content data with the new filtering options.
+
+```swift
 import SwiftUI
 import KinesteXAIFramework
 
 struct APIDemoView: View {
-    
     enum SearchType: String, CaseIterable, Identifiable {
         case findById = "Find by ID"
         case findByTitle = "Find by Title"
-        
         var id: String { self.rawValue }
     }
     enum FilterType: String, CaseIterable, Identifiable {
         case none = "None"
         case category = "Category"
         case bodyParts = "Body Parts"
-        
         var id: String { self.rawValue }
     }
-    @State private var selectedBodyParts: Set<BodyPart> = []
 
     // State variables
     @State private var selectedContentType: ContentType = .workout
-    @State private var selectedFilterType:  FilterType = .none
+    @State private var selectedFilterType: FilterType = .none
     @State private var selectedSearchType: SearchType = .findById
     @State private var searchText: String = ""
+    @State private var selectedBodyParts: Set<BodyPart> = []
     @State private var fetchedWorkout: WorkoutModel?
     @State private var fetchedWorkouts: [WorkoutModel]?
     @State private var fetchedExercises: [ExerciseModel]?
@@ -31,12 +33,11 @@ struct APIDemoView: View {
     @State private var presentDataView = false
     @State private var showAlert = false
     @State private var alertMessage = ""
-    
     @State private var isLoading = false
     @State private var fetchedPlan: PlanModel?
-    let apiKey = "yourapikey" // store this key securely
-    let company = "yourcompanyname"
-    
+    let apiKey = "YOUR_API_KEY" // store this key securely
+    let company = "YOUR_COMPANY_NAME"
+
     var body: some View {
         VStack(spacing: 20) {
             // Content Type Picker
@@ -64,9 +65,8 @@ struct APIDemoView: View {
                 .pickerStyle(SegmentedPickerStyle())
             }
             
-            
             if selectedFilterType == .category {
-                // Search Field
+                // Category search field
                 VStack(alignment: .leading) {
                     Text("Enter category")
                         .font(.headline)
@@ -81,34 +81,32 @@ struct APIDemoView: View {
                     .disableAutocorrection(true)
                 }
             } else if selectedFilterType == .bodyParts {
-                // Show selectable buttons for BodyPart
-                  VStack(alignment: .leading) {
-                      Text("Select Body Parts:")
-                          .font(.headline)
-                      
-                      // Use a ScrollView in case there are many body parts
-                      ScrollView(.horizontal, showsIndicators: false) {
-                          HStack {
-                              ForEach(BodyPart.allCases, id: \.self) { bodyPart in
-                                  Button(action: {
-                                      if selectedBodyParts.contains(bodyPart) {
-                                          selectedBodyParts.remove(bodyPart)
-                                      } else {
-                                          selectedBodyParts.insert(bodyPart)
-                                      }
-                                  }) {
-                                      Text(bodyPart.rawValue)
-                                          .padding(8)
-                                          .background(selectedBodyParts.contains(bodyPart) ? Color.blue : Color.gray)
-                                          .foregroundColor(.white)
-                                          .cornerRadius(8)
-                                  }
-                              }
-                          }
-                      }
-                  }
-            }
-            else {
+                // Body parts selection
+                VStack(alignment: .leading) {
+                    Text("Select Body Parts:")
+                        .font(.headline)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(BodyPart.allCases, id: \.self) { bodyPart in
+                                Button(action: {
+                                    if selectedBodyParts.contains(bodyPart) {
+                                        selectedBodyParts.remove(bodyPart)
+                                    } else {
+                                        selectedBodyParts.insert(bodyPart)
+                                    }
+                                }) {
+                                    Text(bodyPart.rawValue)
+                                        .padding(8)
+                                        .background(selectedBodyParts.contains(bodyPart) ? Color.blue : Color.gray)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(8)
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
                 // Search Type Picker
                 VStack(alignment: .leading) {
                     Text("Search By:")
@@ -121,7 +119,7 @@ struct APIDemoView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }
-            
+                
                 // Search Field
                 VStack(alignment: .leading) {
                     Text(selectedSearchType == .findById ? "Enter \(selectedContentType.rawValue) ID:" : "Enter \(selectedContentType.rawValue) Title:")
@@ -140,8 +138,15 @@ struct APIDemoView: View {
             
             // Search Button
             Button(action: {
-                if searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && selectedBodyParts.isEmpty {
+                // Validation and fetching data
+                if selectedFilterType == .none && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     alertMessage = "\(selectedSearchType == .findById ? "ID" : "Title") cannot be empty."
+                    showAlert = true
+                } else if selectedFilterType == .category && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    alertMessage = "Category cannot be empty."
+                    showAlert = true
+                } else if selectedFilterType == .bodyParts && selectedBodyParts.isEmpty {
+                    alertMessage = "Please select at least one body part."
                     showAlert = true
                 } else {
                     fetchedWorkout = nil
@@ -149,53 +154,38 @@ struct APIDemoView: View {
                     fetchedPlan = nil
                     Task {
                         isLoading = true
-                        // sending request based on what is selected in the UI
-                        await KinesteXAIFramework.fetchAPIContentData(apiKey: apiKey, companyName: company,contentType: selectedContentType,
-                                                                      id: (selectedFilterType == .none && selectedSearchType == .findById) ? searchText : nil,
-                                                                      title: (selectedFilterType == .none && selectedSearchType == .findByTitle) ? searchText : nil,
-                                                                      category: selectedFilterType == .category ? searchText : nil,
-                                                                      limit: 5, // limit to 5 
-                                                                      bodyParts: selectedFilterType == .bodyParts ? Array(selectedBodyParts) : nil) { result in
+                        await KinesteXAIFramework.fetchAPIContentData(
+                            apiKey: apiKey,
+                            companyName: company,
+                            contentType: selectedContentType,
+                            id: (selectedFilterType == .none && selectedSearchType == .findById) ? searchText : nil,
+                            title: (selectedFilterType == .none && selectedSearchType == .findByTitle) ? searchText : nil,
+                            category: selectedFilterType == .category ? searchText : nil,
+                            bodyParts: selectedFilterType == .bodyParts ? Array(selectedBodyParts) : nil,
+                            limit: 10
+                        ) { result in
                             switch result {
                             case .workout(let workout):
                                 fetchedWorkout = workout
-                                
                             case .workouts(let workouts):
                                 fetchedWorkouts = workouts.workouts
-
                             case .plans(let plans):
-                                
                                 fetchedPlans = plans.plans
                             case .exercises(let exercises):
                                 fetchedExercises = exercises.exercises
-                                
                             case .plan(let plan):
                                 fetchedPlan = plan
-                                
                             case .exercise(let exercise):
                                 fetchedExercise = exercise
-                                
                             case .error(let errorMessage):
                                 alertMessage = errorMessage
                                 showAlert = true
-                                print("Error:", errorMessage)
                             }
                         }
                         isLoading = false
-                        if fetchedWorkout != nil {
-                            presentDataView = true
-                        } else if fetchedExercise != nil {
-                            presentDataView = true
-                        } else if fetchedPlan != nil {
-                            presentDataView = true
-                        } else if fetchedWorkouts != nil {
-                            presentDataView = true
-                        } else if fetchedPlans != nil {
-                            presentDataView = true
-                        } else if fetchedExercises != nil {
+                        if fetchedWorkout != nil || fetchedExercise != nil || fetchedPlan != nil || fetchedWorkouts != nil || fetchedPlans != nil || fetchedExercises != nil {
                             presentDataView = true
                         }
-                        
                     }
                 }
             }) {
@@ -206,10 +196,10 @@ struct APIDemoView: View {
                     Text("View \(selectedContentType.rawValue)")
                 }
             }
-            .disabled(isLoading || (searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && selectedBodyParts.isEmpty))
+            .disabled(isLoading || (selectedFilterType == .none && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty))
             .padding()
             .frame(maxWidth: .infinity)
-            .background((searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && selectedBodyParts.isEmpty) ? Color.gray : Color.blue)
+            .background((selectedFilterType == .none && searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) ? Color.gray : Color.blue)
             .foregroundColor(.white)
             .cornerRadius(10)
             .padding(.horizontal)
@@ -218,30 +208,28 @@ struct APIDemoView: View {
         }
         .padding()
         .sheet(isPresented: $presentDataView) {
-                NavigationView {
-                    VStack{
-                        if let workout = fetchedWorkout {
-                            WorkoutDetailView(workout: workout)
-                        } else if let fetchedExercise {
-                            ExerciseCardView(exercise: fetchedExercise, index: 0)
-                        } else if let plan = fetchedPlan {
-                            PlanDetailView(plan: plan)
-                        }
-                        else {
-                            ContentListView(workouts: fetchedWorkouts, exercises: fetchedExercises, plans: fetchedPlans, contentType: selectedContentType)
+            NavigationView {
+                VStack {
+                    if let workout = fetchedWorkout {
+                        // Display workout details
+                    } else if let exercise = fetchedExercise {
+                        // Display exercise details
+                    } else if let plan = fetchedPlan {
+                        // Display plan details
+                    } else {
+                        // Display list of fetched content
+                    }
+                }
+                .navigationTitle("Content Details")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") {
+                            presentDataView = false
                         }
                     }
-                        .navigationTitle("Content Details")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Close") {
-                                    presentDataView = false
-                                }
-                            }
-                        }
                 }
-           
+            }
         }
         .alert("Error", isPresented: $showAlert) {
             Button("OK", role: .cancel) { }
@@ -249,7 +237,5 @@ struct APIDemoView: View {
             Text(alertMessage)
         }
     }
-    
-    // MARK: - Network Request Function
-
 }
+```

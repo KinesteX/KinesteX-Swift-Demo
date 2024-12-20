@@ -41,9 +41,12 @@ struct ContentView: View {
     @State var selectedPlan = "Full Cardio"
     @State var selectedOption = "Complete UX"
     @State var planCategory: PlanCategory = .Cardio
+    
+    var user = UserDetails(age: 20, height: 170, weight: 70, gender: .Male, lifestyle: .Active)
     // for camera component
     @State var reps = 0
     @State var mistake = ""
+    @State var personInFrame = false
 
     @ViewBuilder
     var mainContent: some View {
@@ -221,7 +224,7 @@ struct ContentView: View {
     var kinestexView: some View {
    
         if selectedOption == "Complete UX" {
-            KinesteXAIFramework.createMainView(apiKey: apiKey, companyName: company, userId: userId, planCategory: planCategory, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createMainView(apiKey: apiKey, companyName: company, userId: userId, planCategory: planCategory, user: nil, isLoading: $isLoading, customParams: ["style": "light"], onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -245,7 +248,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Workout" {
-            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: userId, workoutName: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: userId, workoutName: selectedWorkout, user: user, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -257,7 +260,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Challenge" {
-            KinesteXAIFramework.createChallengeView(apiKey: apiKey, companyName: company, userId: userId, exercise: selectedChallenge, countdown: 100, user: nil, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createChallengeView(apiKey: apiKey, companyName: company, userId: userId, exercise: selectedChallenge, countdown: 100, user: nil, isLoading: $isLoading, customParams: ["style": "dark"], onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -282,28 +285,61 @@ struct ContentView: View {
             })
         }
         else {
-            ZStack {
-                KinesteXAIFramework.createCameraComponent(apiKey: apiKey, companyName: company, userId: userId, exercises: ["Squats"], currentExercise: "Squats", user: nil, isLoading: $isLoading, onMessageReceived: {
-                    message in
-                    switch message {
-                    case .reps(let value):
-                        reps = value["value"] as? Int ?? 0
-                        break
-                    case .mistake(let value):
-                        mistake = value["value"] as? String ?? "--"
-                        break
-                        // handle all other cases accordingly
-                    default:
-                        break
-                    }
-                })
-                VStack {
-                    Text("REPS: \(reps)")
-                    Text("MISTAKE: \(mistake)").foregroundColor(.red)
-                    Spacer()
-                   
-                }
-            }
+            ZStack(alignment: .topTrailing) { // Changed to topTrailing alignment
+                          KinesteXAIFramework.createCameraComponent(apiKey: apiKey, companyName: company, userId: userId, exercises: ["Squats"], currentExercise: "Squats", user: nil, isLoading: $isLoading, onMessageReceived: {
+                              message in
+                              switch message {
+                              case .reps(let value):
+                                  reps = value["value"] as? Int ?? 0
+                                  break
+                              case .mistake(let value):
+                                  mistake = value["value"] as? String ?? "--"
+                                  break
+                              case .custom_type(let value):
+                                  guard let received_type = value["type"] else {
+                                      return
+                                  }
+                                  if (received_type as! String == "models_loaded") {
+                                      print("ALL MODELS LOADEDDDDD")
+                                  } else if (received_type as! String == "person_in_frame") {
+                                      withAnimation {
+                                          personInFrame = true
+                                      }
+                                  }
+                              default:
+                                  break
+                              }
+                          })
+                           // resize the frame to display exercise content accordingly
+                          .frame(
+                              width: personInFrame ? 100 : UIScreen.main.bounds.width,
+                              height: personInFrame ? 200 : UIScreen.main.bounds.height
+                          )
+                          .cornerRadius(personInFrame ? 10 : 0) // Add rounded corners when minimized
+                          .padding(personInFrame ? 8 : 0) // Add some padding when minimized
+                          
+                          if personInFrame {
+                              VStack {
+                                  Text("REPS: \(reps)")
+                                      .padding(4)
+                                      .background(Color.black.opacity(0.7))
+                                      .foregroundColor(.white)
+                                      .cornerRadius(5)
+                                  Text("MISTAKE: \(mistake)")
+                                      .padding(4)
+                                      .background(Color.black.opacity(0.7))
+                                      .foregroundColor(.red)
+                                      .cornerRadius(5)
+                              }
+                              .padding(12)
+                          } else {
+                              VStack {
+                                  Text("REPS: \(reps)")
+                                  Text("MISTAKE: \(mistake)").foregroundColor(.red)
+                                  Spacer()
+                              }
+                          }
+                      }
         }
         
     }
