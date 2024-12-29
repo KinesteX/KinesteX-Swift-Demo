@@ -8,7 +8,7 @@
 
 #### Info.plist
 
-Add the following keys for camera and microphone usage:
+Add the following keys for camera usage:
 
 ```xml
 <key>NSCameraUsageDescription</key>
