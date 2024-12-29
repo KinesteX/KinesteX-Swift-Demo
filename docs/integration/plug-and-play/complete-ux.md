@@ -11,6 +11,12 @@ Available Categories to Sort Plans
 | **Rehabilitation**                    |
 | **Custom**                            |
 
+1. Define the planCategory: 
+```swift
+       // Plan category for personalized fitness goals
+    @State private var planCategory: PlanCategory = .Cardio
+```
+
 ## Displaying the main view:
   ```swift
     KinesteXAIFramework.createMainView(
@@ -18,7 +24,7 @@ Available Categories to Sort Plans
         companyName: company,
         userId: userId,
         planCategory: planCategory, 
-        user: user, // optional 
+        user: user, // optional: can be nil
         isLoading: $isLoading,
         customParams: ["style": "dark"], // dark or light theme (customizable in admin portal)
         onMessageReceived: { message in
