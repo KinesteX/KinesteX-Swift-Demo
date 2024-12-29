@@ -12,7 +12,8 @@ KinesteXAIFramework.createChallengeView(
     companyName: company,
     userId: userId,
     exercise: challengeExercise, // exercise name or ID
-    countdown: 100, // duration of challenge in seconds 
+    countdown: 100, // duration of challenge in seconds
+    user: nil, // Optionally pass user details
     isLoading: $isLoading,
     customParams: ["style": "dark"], // dark or light theme (customizable in admin portal)
     onMessageReceived: { message in
