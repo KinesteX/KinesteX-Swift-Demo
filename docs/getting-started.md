@@ -15,6 +15,10 @@ Add the following keys for camera usage:
 <string>Please grant access to camera to start AI Workout</string>
 ```
 
+**If you do not have Info.plist:**
+Open project in Xcode > click project name > select target > Info tab > Custom Application Target Properties > add "Privacy - Camera Usage Description" key with message requesting camera permission.
+
+
 ### 2. Install KinesteX SDK framework
 
 Add the framework as a package dependency with the following URL:
