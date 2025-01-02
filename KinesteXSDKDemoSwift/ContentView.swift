@@ -288,15 +288,26 @@ struct ContentView: View {
             })
         }
         else if selectedOption == "Leaderboard" {
-            KinesteXAIFramework.createLeaderboardView(apiKey: apiKey, companyName: company, userId: userId, exercise: "Squats", isLoading: $isLoading, onMessageReceived: {
-                message in
-                switch message {
-                case .exit_kinestex(_):
-                   showKinesteX = false
-                    break
-               // handle all other cases accordingly
-                default:
-                    break
+            KinesteXAIFramework.createLeaderboardView(
+              apiKey: apiKey, // Your unique API key
+              companyName: company, // Name of your company
+              userId: userId, // Unique identifier for the user
+              exercise: "Squats", // Specify the exercise title
+              username: "", // if you know the username a person has entered: you can highlight the user by specifying their username
+              isLoading: $isLoading,
+              customParams: [
+                "style": "dark", // light or dark theme (default is dark)
+                "isHideHeaderMain": true, // OPTIONAL: hide the exit button from the leaderboard
+              ],
+              onMessageReceived: {
+                    message in
+                        switch message {
+                            case .exit_kinestex(_):
+                               showKinesteX = false
+                                break
+                           // handle all other cases accordingly
+                            default:
+                                break
                 }
             })
         }
