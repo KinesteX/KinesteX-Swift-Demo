@@ -9,6 +9,7 @@
 | [`createPlanView`](./plug-and-play/workout-plans.md)        | Displays Individual Plan Component                              | [View Documentation](./plug-and-play/workout-plans.md)       |
 | [`createWorkoutView`](./plug-and-play/workouts.md)     | Displays Individual Workout Component                           | [View Documentation](./plug-and-play/workouts.md)           |
 | [`createChallengeView`](./plug-and-play/challenges.md)   | Displays Individual Exercise in a challenge form                | [View Documentation](./plug-and-play/challenges.md)         |
+| [`createLeaderboardView`](./plug-and-play/leaderboard.md)   | Displays Real-time leaderboard for one challenge exercise               | [View Documentation](./plug-and-play/leaderboard.md)         |
 | [`createExperienceView`](./plug-and-play/ai-experiences.md)  | Displays AI Experience. Please contact support for more details | [View Documentation](./plug-and-play/ai-experiences.md)     |
 
 
@@ -36,6 +37,7 @@
 - [Workout Plans](./plug-and-play/workout-plans.md)
 - [Workouts](./plug-and-play/workouts.md)
 - [Challenges](./plug-and-play/challenges.md)
+- [Leaderboard](./plug-and-play/leaderboard.md)
 - [Gamified AI Experiences](./plug-and-play/ai-experiences.md)
   
 ### Custom Solutions: 
