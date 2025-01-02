@@ -12,7 +12,7 @@ struct KinesteXSDKDemoSwiftApp: App {
     var body: some Scene {
         WindowGroup {
             // FOR API DEMO
-           // APIDemoView()
+          // APIDemoView()
             
             
             ContentView()

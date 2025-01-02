@@ -213,6 +213,9 @@ struct ContentView: View {
             RadioButton(title: "Experience", isSelected: selectedOption == "Experience", action: {
                 selectedOption = "Experience"
             })
+            RadioButton(title: "Leaderboard", isSelected: selectedOption == "Leaderboard", action: {
+                selectedOption = "Leaderboard"
+            })
             RadioButton(title: "Camera", isSelected: selectedOption == "Camera", action: {
                 selectedOption = "Camera"
             })
@@ -248,7 +251,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Workout" {
-            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: userId, workoutName: selectedWorkout, user: user, isLoading: $isLoading, onMessageReceived: {
+            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: userId, workoutName: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -273,6 +276,19 @@ struct ContentView: View {
             })
         } else if selectedOption == "Experience" {
             KinesteXAIFramework.createExperienceView(apiKey: apiKey, companyName: company, userId: userId, experience: selectedExperience, user: nil, isLoading: $isLoading, onMessageReceived: {
+                message in
+                switch message {
+                case .exit_kinestex(_):
+                   showKinesteX = false
+                    break
+               // handle all other cases accordingly
+                default:
+                    break
+                }
+            })
+        }
+        else if selectedOption == "Leaderboard" {
+            KinesteXAIFramework.createLeaderboardView(apiKey: apiKey, companyName: company, userId: userId, exercise: "Squats", isLoading: $isLoading, onMessageReceived: {
                 message in
                 switch message {
                 case .exit_kinestex(_):
