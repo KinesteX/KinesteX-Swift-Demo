@@ -6,7 +6,8 @@
 - **Customizable**: Brand-aligned app design.
 - **Quick Integration**: Easy setup for advanced fitness solutions.
 
-You can find workout plans in our library [here](https://workout-view.kinestex.com/), or create your own plans in our [admin portal](https://admin.kinestex.com).
+You can find exercises in our library [here](https://workout-view.kinestex.com/?tab=exercises), or create your own exercises in our [admin portal](https://admin.kinestex.com).
+
 
 # **PLAN Integration Example**
 
