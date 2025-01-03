@@ -12,31 +12,24 @@ Whenever a new ranking is available, the leaderboard automatically refreshes to 
 
 # **LEADERBOARD Integration Example**
 
-```swift
-        KinesteXAIFramework.createLeaderboardView(
-              apiKey: apiKey, // Your unique API key
-              companyName: company, // Name of your company
-              userId: userId, // Unique identifier for the user
-              exercise: "Squats", // Specify the exercise title
-              username: "", // if you know the username a person has entered: you can highlight the user by specifying their username
-              isLoading: $isLoading,
-              customParams: [
-                "style": "dark", // light or dark theme (default is dark)
-                "isHideHeaderMain": true, // OPTIONAL: hide the exit button from the leaderboard
-              ],
-              onMessageReceived: {
-                    message in
-                        switch message {
-                            case .exit_kinestex(_):
-                               showKinesteX = false
-                                break
-                           // handle all other cases accordingly
-                            default:
-                                break
-                }
-            })
+   ```kotlin
+      // OPTIONAL: Custom Parameters
+      val data = mutableMapOf<String, Any>()
+      data["style"] = 'light' // light or dark theme (customizable in admin dashboard)
 
-```
+    kinesteXWebView = KinesteXSDK.createLeaderboardView(
+                    this, // context
+                    apiKey, // apiKey
+                    company, // company name
+                    userId, // userId
+                    "Squats", // name or ID of the exercise
+                    "", // highlight username in leaderboard if known 
+                    data, // custom parameters or null
+                    viewModel.isLoading,
+                    ::handleWebViewMessage,
+                    permissionHandler = this 
+    )  as GenericWebView?
+   ```
 
 # Next steps:
 
