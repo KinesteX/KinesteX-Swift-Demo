@@ -11,7 +11,7 @@ import KinesteXAIFramework
 struct ContentView: View {
     @State var showKinesteX = false
     @State var showExplanation = false
-    @State var isLoading = false
+    @State var isLoading = true
     @State var isExpanded = false
     @State var isExpandedInner = false
 
