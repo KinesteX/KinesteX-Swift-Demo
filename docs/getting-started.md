@@ -13,6 +13,8 @@ Add the following keys for camera usage:
 ```xml
 <key>NSCameraUsageDescription</key>
 <string>Please grant access to camera to start AI Workout</string>
+<key>NSMotionUsageDescription</key>
+<string>We need access to your device's motion sensors to properly position your phone for the workout</string>
 ```
 
 **If you do not have Info.plist:**
