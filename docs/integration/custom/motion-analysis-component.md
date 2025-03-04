@@ -95,10 +95,10 @@ KinesteXAIFramework.createCameraComponent(
 | `warning` | Warning if exercise IDs models are not provided |
 | `successful_repeat` | to indicate success rep, includes: `exercise` representative of currentExercise value, and `value` with an integer value of the total number of reps for the current exercise |
 | `person_in_frame` | To indicate that person is in the frame |
-| `pose_landmarks` | Includes `poseLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
-| `world_landmarks` | Includes `worldLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
+| `pose_landmarks` | *If specified in includePoseData.* Includes `poseLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
+| `world_landmarks` | *If specified in includePoseData.* Includes `worldLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
 
-## Available coordinates and angles. 
+## Available coordinates and angles if includePoseData is used. 
 Both poseLandmarks and worldLandmarks contain same naming conventions for coordinates and angles, but have different values depending because the point of reference is different. worldLandmarks are useful if you need to perform calculations regardless of the person's position in the camera frame since the main point of reference would be hips and person will be treated as always in the center of the frame. worldLandmarks have the most accurate z measurements. poseLandmarks are useful if you need to know person's position relative to the camera frame. 
 
 - Available coordinates:
