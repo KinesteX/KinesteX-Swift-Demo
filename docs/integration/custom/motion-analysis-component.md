@@ -86,6 +86,7 @@ KinesteXAIFramework.createCameraComponent(
 | `videoURL` | If videoURL is specified, we will use it instead of camera |
 | `landmarkColor` | Color of the pose connections and landmarks. Has to be in hex format with #. Example: "#14FF00" |
 | `showSilhouette` | Whether or not to show the silhouette component prompting a user to get into the frame |
+| (Beta) `includeRealtimeAccuracy` | Applies only if exercises are specified. If true will create a stream returning accuracy prediction for the correct rep value |
 | `includePoseData` | string[]. Can contain either or all: ["angles", "poseLandmarks", "worldLandmarks"]. If "angles" is included, will return both 2D and 3D angles for specified poseLandmarks or/and worldLandmarks. **THIS WILL IMPACT PERFORMANCE**, so only include if you are planning to make custom calculations instead of relying on our existing exercises |
 
 ## Available message types that will be returned: 
@@ -93,11 +94,20 @@ KinesteXAIFramework.createCameraComponent(
 |-------|-------------|
 | `error_occurred` | includes `data` field with the error message |
 | `warning` | Warning if exercise IDs models are not provided |
-| `successful_repeat` | to indicate success rep, includes: `exercise` representative of currentExercise value, and `value` with an integer value of the total number of reps for the current exercise |
+| `successful_repeat` | to indicate success rep, includes: `exercise` representative of currentExercise value, `value` with an integer value of the total number of reps for the current exercise, and `accuracy` value indicative of the confidence of correct rep |
 | `person_in_frame` | To indicate that person is in the frame |
+| (Beta) `correct_position_accuracy` | Includes `accuracy` field that represents how confident the system is that the person is correctly performing the current position of the exercise being tracked. For example, if currentExercise is Squats, this value will return model's confidence in correct Squat position|
 | `pose_landmarks` | *If specified in includePoseData.* Includes `poseLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
 | `world_landmarks` | *If specified in includePoseData.* Includes `worldLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
 
+## Available control options:
+### Pause motion tracking
+To pause motion tracking specify `currentExercise` as `"Pause Exercise"` and to resume the tracking specify the exercise you want to track. Reminder: to resume the currentExercise has to be from the exercises array
+```swift
+KinesteXAIFramework.updateCurrentExercise("Pause Exercise") // Pause
+...
+KinesteXAIFramework.updateCurrentExercise("Squats") // Resume with the Model ID or Exercise name
+```
 ## Available coordinates and angles if includePoseData is used. 
 Both poseLandmarks and worldLandmarks contain same naming conventions for coordinates and angles, but have different values depending because the point of reference is different. worldLandmarks are useful if you need to perform calculations regardless of the person's position in the camera frame since the main point of reference would be hips and person will be treated as always in the center of the frame. worldLandmarks have the most accurate z measurements. poseLandmarks are useful if you need to know person's position relative to the camera frame. 
 
