@@ -83,6 +83,7 @@ KinesteXAIFramework.createCameraComponent(
 ## Additional customization options you can pass in customParams: 
 | Field | Description |
 |-------|-------------|
+| `restSpeeches` | [String] with rest_speech values inside ExerciseModel you get from our API. When passed we will fetch the audios for use throughout the session. To use the audio you can use updateCurrentRestSpeech function (see below). |
 | `videoURL` | If videoURL is specified, we will use it instead of camera |
 | `landmarkColor` | Color of the pose connections and landmarks. Has to be in hex format with #. Example: "#14FF00" |
 | `showSilhouette` | Whether or not to show the silhouette component prompting a user to get into the frame |
@@ -96,6 +97,7 @@ KinesteXAIFramework.createCameraComponent(
 | `warning` | Warning if exercise IDs models are not provided |
 | `successful_repeat` | to indicate success rep, includes: `exercise` representative of currentExercise value, `value` with an integer value of the total number of reps for the current exercise, and `accuracy` value indicative of the confidence of correct rep |
 | `person_in_frame` | To indicate that person is in the frame |
+| `speech_fetch_complete` | Includes `successCount` and `failureCount` to indicate all phrases that have been loaded. Also each failed phrase will have `error_occurred` post message sent with the reason of the failure |
 | (Beta) `correct_position_accuracy` | Includes `accuracy` field that represents how confident the system is that the person is correctly performing the current position of the exercise being tracked. For example, if currentExercise is Squats, this value will return model's confidence in correct Squat position|
 | `pose_landmarks` | *If specified in includePoseData.* Includes `poseLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
 | `world_landmarks` | *If specified in includePoseData.* Includes `worldLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
@@ -108,6 +110,13 @@ KinesteXAIFramework.updateCurrentExercise("Pause Exercise") // Pause
 ...
 KinesteXAIFramework.updateCurrentExercise("Squats") // Resume with the Model ID or Exercise name
 ```
+### Updating current rest speech
+To update the current rest speech audio and play it immediately call `updateCurrentRestSpeech` and pass any value from the restSpeeches array. Please note that the audio you pass and want to play has to be from the restSpeeches array you pass at the initialization of the component. 
+```swift
+KinesteXAIFramework.updateCurrentRestSpeech(restSpeeches[0]) // play the first element from the restSpeeches array
+```
+If audio is not being played please check logs for `error_occurred` with message: Phrase ... failed to fetch. Or alternatively listen for message `speech_fetch_complete` which will return the total successCount and failureCount for all the phrases you pass. 
+
 ## Available coordinates and angles if includePoseData is used. 
 Both poseLandmarks and worldLandmarks contain same naming conventions for coordinates and angles, but have different values depending because the point of reference is different. worldLandmarks are useful if you need to perform calculations regardless of the person's position in the camera frame since the main point of reference would be hips and person will be treated as always in the center of the frame. worldLandmarks have the most accurate z measurements. poseLandmarks are useful if you need to know person's position relative to the camera frame. 
 
