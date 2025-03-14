@@ -97,7 +97,7 @@ KinesteXAIFramework.createCameraComponent(
 | `warning` | Warning if exercise IDs models are not provided |
 | `successful_repeat` | to indicate success rep, includes: `exercise` representative of currentExercise value, `value` with an integer value of the total number of reps for the current exercise, and `accuracy` value indicative of the confidence of correct rep |
 | `person_in_frame` | To indicate that person is in the frame |
-| `speech_fetch_complete` | Includes `successCount` and `failureCount` to indicate all phrases that have been loaded. Also each failed phrase will have `error_occurred` post message sent with the reason of the failure |
+| `speech_fetch_complete` | Includes `successCount` and `failureCount` to indicate all `restSpeeches` phrases that have been loaded. Also each failed phrase will have `error_occurred` post message sent with the reason of the failure |
 | (Beta) `correct_position_accuracy` | Includes `accuracy` field that represents how confident the system is that the person is correctly performing the current position of the exercise being tracked. For example, if currentExercise is Squats, this value will return model's confidence in correct Squat position|
 | `pose_landmarks` | *If specified in includePoseData.* Includes `poseLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
 | `world_landmarks` | *If specified in includePoseData.* Includes `worldLandmarks` Object. Inside it has `coordinates`, `angles2D`, and `angles3D`. See below for all coordinate values |
