@@ -161,8 +161,8 @@ struct ContentView: View {
             apiKey: apiKey,
             companyName: company,
             userId: userId,
-            exercises: ["Thread the Needle Right"],
-            currentExercise: "Thread the Needle Right",
+            exercises: ["CnOcLpBo5RAyznE0z3jt"],
+            currentExercise: "CnOcLpBo5RAyznE0z3jt",
             user: nil,
             isLoading: $cameraViewModel.isLoading,
             customParams: [
