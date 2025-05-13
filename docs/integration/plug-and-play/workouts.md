@@ -18,7 +18,7 @@ KinesteXAIFramework.createWorkoutView(
     workoutName: selectedWorkout, // workout name or ID
     user: nil,
     isLoading: $isLoading,
-    customParams: ["style": "dark"], // dark or light theme (customizable in admin portal)
+    customParams: ["style": "dark", "language": "en"], // dark or light theme (customizable in admin portal) // ar
     onMessageReceived: { message in
         switch message {
         case .exit_kinestex(_):
