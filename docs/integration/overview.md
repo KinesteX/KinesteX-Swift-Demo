@@ -5,7 +5,7 @@
 
 | **Function**             | **Description**                                                       | **Documentation**                                    |
 |---------------------------|-----------------------------------------------------------------------|-----------------------------------------------------|
-| [`createMainView`](./plug-and-play/complete-ux.md)        | Displays 3 workout plans for user to select based on category                                        | [View Documentation](./plug-and-play/complete-ux.md)         |
+| [`createCategoryView`](./plug-and-play/complete-ux.md)        | Displays 3 workout plans for user to select based on category                                        | [View Documentation](./plug-and-play/complete-ux.md)         |
 | [`createPlanView`](./plug-and-play/workout-plans.md)        | Displays Individual Plan Component                              | [View Documentation](./plug-and-play/workout-plans.md)       |
 | [`createWorkoutView`](./plug-and-play/workouts.md)     | Displays Individual Workout Component                           | [View Documentation](./plug-and-play/workouts.md)           |
 | [`createChallengeView`](./plug-and-play/challenges.md)   | Displays Individual Exercise in a challenge form                | [View Documentation](./plug-and-play/challenges.md)         |
@@ -19,8 +19,8 @@
 
 | Function                                | Description                                                   | Documentation                                                |
 |-----------------------------------------|---------------------------------------------------------------|-------------------------------------------------------------|
-| [`fetchAPIContentData`](./custom/content-api.md) | Fetch workout, exercise, and plan data easily through API       | [View Documentation](./custom/content-api.md)              |
-| [`createCameraComponent`](./custom/motion-analysis-component.md) | Integrate our camera component with pose-analysis and feedback | [View Documentation](./custom/motion-analysis-component.md) |
+| [`fetchContent`](./custom/content-api.md) | Fetch workout, exercise, and plan data easily through API       | [View Documentation](./custom/content-api.md)              |
+| [`createCameraView`](./custom/motion-analysis-component.md) | Integrate our camera component with pose-analysis and feedback | [View Documentation](./custom/motion-analysis-component.md) |
 
 
 ## Learn more 

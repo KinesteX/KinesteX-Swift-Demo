@@ -1,5 +1,5 @@
 import SwiftUI
-import KinesteXAIFramework
+import KinesteXAIKit
 
 struct APIDemoView: View {
     
@@ -34,8 +34,9 @@ struct APIDemoView: View {
     
     @State private var isLoading = false
     @State private var fetchedPlan: PlanModel?
-    let apiKey = "yourapikey" // store this key securely
-    let company = "yourcompanyname"
+    
+    // initialize the SDK with apikey
+    let kinestex = KinesteXAIKit(apiKey: "YOUR_API_KEY", companyName: "YOUR_COMPANY_NAME", userId: "YOUR_USER_ID")
     
     var body: some View {
         VStack(spacing: 20) {
@@ -150,37 +151,39 @@ struct APIDemoView: View {
                     Task {
                         isLoading = true
                         // sending request based on what is selected in the UI
-                        await KinesteXAIFramework.fetchAPIContentData(apiKey: apiKey, companyName: company,contentType: selectedContentType,
+                        let result = await kinestex.fetchContent(contentType: selectedContentType,
                                                                       id: (selectedFilterType == .none && selectedSearchType == .findById) ? searchText : nil,
                                                                       title: (selectedFilterType == .none && selectedSearchType == .findByTitle) ? searchText : nil,
                                                                       category: selectedFilterType == .category ? searchText : nil,
-                                                                      limit: 5, // limit to 5 
-                                                                      bodyParts: selectedFilterType == .bodyParts ? Array(selectedBodyParts) : nil) { result in
-                            switch result {
-                            case .workout(let workout):
-                                fetchedWorkout = workout
-                                
-                            case .workouts(let workouts):
-                                fetchedWorkouts = workouts.workouts
+                                                                 bodyParts: selectedFilterType == .bodyParts ? Array(selectedBodyParts) : nil)
+                        switch result {
+                        case .workout(let workout):
+                            fetchedWorkout = workout
+                     
+                        case .workouts(let workouts):
+                            fetchedWorkouts = workouts.workouts
 
-                            case .plans(let plans):
-                                
-                                fetchedPlans = plans.plans
-                            case .exercises(let exercises):
-                                fetchedExercises = exercises.exercises
-                                
-                            case .plan(let plan):
-                                fetchedPlan = plan
-                                
-                            case .exercise(let exercise):
-                                fetchedExercise = exercise
-                                
-                            case .error(let errorMessage):
-                                alertMessage = errorMessage
-                                showAlert = true
-                                print("Error:", errorMessage)
-                            }
+                        case .plans(let plans):
+                            
+                            fetchedPlans = plans.plans
+                        case .exercises(let exercises):
+                            fetchedExercises = exercises.exercises
+                            
+                        case .plan(let plan):
+                            fetchedPlan = plan
+                            
+                        case .exercise(let exercise):
+                            fetchedExercise = exercise
+                     
+                        case .error(let errorMessage):
+                            alertMessage = errorMessage
+                            showAlert = true
+                            print("Error:", errorMessage)
+                            
+                        default:
+                            break
                         }
+                        
                         isLoading = false
                         if fetchedWorkout != nil {
                             presentDataView = true
@@ -249,7 +252,5 @@ struct APIDemoView: View {
             Text(alertMessage)
         }
     }
-    
-    // MARK: - Network Request Function
 
 }

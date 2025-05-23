@@ -1,5 +1,5 @@
 import SwiftUI
-import KinesteXAIFramework
+import KinesteXAIKit
 
 struct HeaderView: View {
     let title: String
@@ -41,7 +41,7 @@ struct PlanDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 // Plan Image and Title
-                AsyncImage(url: URL(string: plan.img_URL)) { image in
+                AsyncImage(url: URL(string: plan.imgURL)) { image in
                     image
                         .resizable()
                         .scaledToFill()
@@ -132,7 +132,7 @@ struct PlanDetailView: View {
                                                                  
                                                                     Text("Avg Cals: \(workout.calories ?? 0)").font(.caption)
                                                                     
-                                                                    Text("Total minutes: \(workout.total_minutes)").font(.caption)
+                                                                    Text("Total minutes: \(workout.totalMinutes)").font(.caption)
                                                                 }
                                                                 AsyncImage(url: URL(string: workout.imgURL)) { image in
                                                                     image

@@ -10,14 +10,11 @@ Whenever a new ranking is available, the leaderboard automatically refreshes to 
 
 ---
 
-# **LEADERBOARD Integration Example**
+# **Leaderboard Integration Example**
 
 ```swift
-        KinesteXAIFramework.createLeaderboardView(
-              apiKey: apiKey, // Your unique API key
-              companyName: company, // Name of your company
-              userId: userId, // Unique identifier for the user
-              exercise: "Squats", // Specify the exercise title
+        kinestex.createLeaderboardView(
+              exercise: "Squats", // Specify the exercise id or title
               username: "", // if you know the username a person has entered: you can highlight the user by specifying their username
               isLoading: $isLoading,
               customParams: [

@@ -7,25 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB1795192CB6CA8D005FEA01 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB1795182CB6CA8D005FEA01 /* KinesteXAIFramework */; };
-		AB17951C2CB6CB0E005FEA01 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB17951B2CB6CB0E005FEA01 /* KinesteXAIFramework */; };
-		AB32F9472CDF8AA4005B8E81 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB32F9462CDF8AA4005B8E81 /* KinesteXAIFramework */; };
 		AB4797412CDFC49F00387B21 /* ContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4797402CDFC49F00387B21 /* ContentListView.swift */; };
-		AB586E502D0EDD470017F008 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB586E4F2D0EDD470017F008 /* KinesteXAIFramework */; };
-		AB6339972D6128A900A4E12F /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB6339962D6128A900A4E12F /* KinesteXAIFramework */; };
-		AB63399A2D61293500A4E12F /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB6339992D61293500A4E12F /* KinesteXAIFramework */; };
-		AB63399E2D61295600A4E12F /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB63399D2D61295600A4E12F /* KinesteXAIFramework */; };
-		AB6339A12D612A1700A4E12F /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB6339A02D612A1700A4E12F /* KinesteXAIFramework */; };
-		AB6339A32D612AEA00A4E12F /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB6339A22D612AEA00A4E12F /* KinesteXAIFramework */; };
-		AB748CB32D141D6500A7BEE0 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB748CB22D141D6500A7BEE0 /* KinesteXAIFramework */; };
-		AB7F8A642CD7AF92003B8EFA /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB7F8A632CD7AF92003B8EFA /* KinesteXAIFramework */; };
 		AB7F8A662CD7B444003B8EFA /* APIDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A652CD7B444003B8EFA /* APIDemoView.swift */; };
 		AB7F8A6A2CD7F3E9003B8EFA /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A692CD7F3E9003B8EFA /* WorkoutDetailView.swift */; };
 		AB7F8A6C2CD7F401003B8EFA /* ExerciseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A6B2CD7F401003B8EFA /* ExerciseCardView.swift */; };
 		AB7F8A6E2CD7F7E5003B8EFA /* WrapItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A6D2CD7F7E5003B8EFA /* WrapItem.swift */; };
 		AB7F8A702CD81658003B8EFA /* PlanDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A6F2CD81658003B8EFA /* PlanDetailView.swift */; };
-		AB9542252D15886400A955B8 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB9542242D15886400A955B8 /* KinesteXAIFramework */; };
-		AB9D7DB52CE1492B00413E6D /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = AB9D7DB42CE1492B00413E6D /* KinesteXAIFramework */; };
 		ABAEB3372C0CBDE800BD90AD /* KinesteXSDKDemoSwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB3362C0CBDE800BD90AD /* KinesteXSDKDemoSwiftApp.swift */; };
 		ABAEB3392C0CBDE800BD90AD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB3382C0CBDE800BD90AD /* ContentView.swift */; };
 		ABAEB33B2C0CBDEA00BD90AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABAEB33A2C0CBDEA00BD90AD /* Assets.xcassets */; };
@@ -34,10 +21,7 @@
 		ABAEB3532C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB3522C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITests.swift */; };
 		ABAEB3552C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB3542C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITestsLaunchTests.swift */; };
 		ABAEB36E2C0CD9E100BD90AD /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAEB36D2C0CD9E100BD90AD /* RadioButton.swift */; };
-		ABB179A02CEF64310021F535 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = ABB1799F2CEF64310021F535 /* KinesteXAIFramework */; };
-		ABCB85762CB6CBE3000A0065 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = ABCB85752CB6CBE3000A0065 /* KinesteXAIFramework */; };
-		ABF1E96F2D613A99009F80E0 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = ABF1E96E2D613A99009F80E0 /* KinesteXAIFramework */; };
-		ABF1E9722D613C9E009F80E0 /* KinesteXAIFramework in Frameworks */ = {isa = PBXBuildFile; productRef = ABF1E9712D613C9E009F80E0 /* KinesteXAIFramework */; };
+		ABFE1C6E2DE0539D009959A5 /* KinesteXAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = ABFE1C6D2DE0539D009959A5 /* KinesteXAIKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,23 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB9D7DB52CE1492B00413E6D /* KinesteXAIFramework in Frameworks */,
-				ABCB85762CB6CBE3000A0065 /* KinesteXAIFramework in Frameworks */,
-				AB9542252D15886400A955B8 /* KinesteXAIFramework in Frameworks */,
-				AB17951C2CB6CB0E005FEA01 /* KinesteXAIFramework in Frameworks */,
-				AB748CB32D141D6500A7BEE0 /* KinesteXAIFramework in Frameworks */,
-				AB6339972D6128A900A4E12F /* KinesteXAIFramework in Frameworks */,
-				ABF1E96F2D613A99009F80E0 /* KinesteXAIFramework in Frameworks */,
-				AB32F9472CDF8AA4005B8E81 /* KinesteXAIFramework in Frameworks */,
-				AB7F8A642CD7AF92003B8EFA /* KinesteXAIFramework in Frameworks */,
-				ABB179A02CEF64310021F535 /* KinesteXAIFramework in Frameworks */,
-				AB586E502D0EDD470017F008 /* KinesteXAIFramework in Frameworks */,
-				AB1795192CB6CA8D005FEA01 /* KinesteXAIFramework in Frameworks */,
-				AB6339A12D612A1700A4E12F /* KinesteXAIFramework in Frameworks */,
-				AB6339A32D612AEA00A4E12F /* KinesteXAIFramework in Frameworks */,
-				ABF1E9722D613C9E009F80E0 /* KinesteXAIFramework in Frameworks */,
-				AB63399E2D61295600A4E12F /* KinesteXAIFramework in Frameworks */,
-				AB63399A2D61293500A4E12F /* KinesteXAIFramework in Frameworks */,
+				ABFE1C6E2DE0539D009959A5 /* KinesteXAIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,12 +101,20 @@
 			path = "API Content";
 			sourceTree = "<group>";
 		};
+		ABA5EB892DDF2DA500528B2A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		ABAEB32A2C0CBDE800BD90AD = {
 			isa = PBXGroup;
 			children = (
 				ABAEB3352C0CBDE800BD90AD /* KinesteXSDKDemoSwift */,
 				ABAEB3472C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftTests */,
 				ABAEB3512C0CBDEA00BD90AD /* KinesteXSDKDemoSwiftUITests */,
+				ABA5EB892DDF2DA500528B2A /* Frameworks */,
 				ABAEB3342C0CBDE800BD90AD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -209,23 +185,9 @@
 			);
 			name = KinesteXSDKDemoSwift;
 			packageProductDependencies = (
-				AB1795182CB6CA8D005FEA01 /* KinesteXAIFramework */,
-				AB17951B2CB6CB0E005FEA01 /* KinesteXAIFramework */,
-				ABCB85752CB6CBE3000A0065 /* KinesteXAIFramework */,
-				AB7F8A632CD7AF92003B8EFA /* KinesteXAIFramework */,
-				AB32F9462CDF8AA4005B8E81 /* KinesteXAIFramework */,
-				AB9D7DB42CE1492B00413E6D /* KinesteXAIFramework */,
-				ABB1799F2CEF64310021F535 /* KinesteXAIFramework */,
-				AB586E4F2D0EDD470017F008 /* KinesteXAIFramework */,
-				AB748CB22D141D6500A7BEE0 /* KinesteXAIFramework */,
-				AB9542242D15886400A955B8 /* KinesteXAIFramework */,
-				AB6339962D6128A900A4E12F /* KinesteXAIFramework */,
 				AB6339992D61293500A4E12F /* KinesteXAIFramework */,
 				AB63399D2D61295600A4E12F /* KinesteXAIFramework */,
-				AB6339A02D612A1700A4E12F /* KinesteXAIFramework */,
-				AB6339A22D612AEA00A4E12F /* KinesteXAIFramework */,
-				ABF1E96E2D613A99009F80E0 /* KinesteXAIFramework */,
-				ABF1E9712D613C9E009F80E0 /* KinesteXAIFramework */,
+				ABFE1C6D2DE0539D009959A5 /* KinesteXAIKit */,
 			);
 			productName = KinesteXSDKDemoSwift;
 			productReference = ABAEB3332C0CBDE800BD90AD /* KinesteXSDKDemoSwift.app */;
@@ -275,7 +237,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					ABAEB3322C0CBDE800BD90AD = {
 						CreatedOnToolsVersion = 15.0;
@@ -300,7 +262,7 @@
 			);
 			mainGroup = ABAEB32A2C0CBDE800BD90AD;
 			packageReferences = (
-				ABF1E9702D613C9E009F80E0 /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */,
+				ABFE1C6C2DE0539D009959A5 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */,
 			);
 			productRefGroup = ABAEB3342C0CBDE800BD90AD /* Products */;
 			projectDirPath = "";
@@ -423,7 +385,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = MQU4CU9NLX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -484,7 +448,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = MQU4CU9NLX;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -511,8 +477,8 @@
 				CODE_SIGN_ENTITLEMENTS = KinesteXSDKDemoSwift/KinesteXSDKDemoSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"KinesteXSDKDemoSwift/Preview Content\"";
-				DEVELOPMENT_TEAM = MQU4CU9NLX;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -551,8 +517,8 @@
 				CODE_SIGN_ENTITLEMENTS = KinesteXSDKDemoSwift/KinesteXSDKDemoSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"KinesteXSDKDemoSwift/Preview Content\"";
-				DEVELOPMENT_TEAM = MQU4CU9NLX;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -586,11 +552,10 @@
 		ABAEB35C2C0CBDEA00BD90AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MQU4CU9NLX;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -609,11 +574,10 @@
 		ABAEB35D2C0CBDEA00BD90AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MQU4CU9NLX;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -632,10 +596,9 @@
 		ABAEB35F2C0CBDEA00BD90AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MQU4CU9NLX;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -654,10 +617,9 @@
 		ABAEB3602C0CBDEA00BD90AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MQU4CU9NLX;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -715,37 +677,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		ABF1E9702D613C9E009F80E0 /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */ = {
+		ABFE1C6C2DE0539D009959A5 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/KinesteX/KinesteX-SDK-Swift.git";
+			repositoryURL = "https://github.com/KinesteX/KinesteX-AI-Kit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.0;
+				minimumVersion = 1.0.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AB1795182CB6CA8D005FEA01 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB17951B2CB6CB0E005FEA01 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB32F9462CDF8AA4005B8E81 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB586E4F2D0EDD470017F008 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB6339962D6128A900A4E12F /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
 		AB6339992D61293500A4E12F /* KinesteXAIFramework */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = KinesteXAIFramework;
@@ -754,46 +696,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = KinesteXAIFramework;
 		};
-		AB6339A02D612A1700A4E12F /* KinesteXAIFramework */ = {
+		ABFE1C6D2DE0539D009959A5 /* KinesteXAIKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB6339A22D612AEA00A4E12F /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB748CB22D141D6500A7BEE0 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB7F8A632CD7AF92003B8EFA /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB9542242D15886400A955B8 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB9D7DB42CE1492B00413E6D /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		ABB1799F2CEF64310021F535 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		ABCB85752CB6CBE3000A0065 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		ABF1E96E2D613A99009F80E0 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		ABF1E9712D613C9E009F80E0 /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = ABF1E9702D613C9E009F80E0 /* XCRemoteSwiftPackageReference "KinesteX-SDK-Swift" */;
-			productName = KinesteXAIFramework;
+			package = ABFE1C6C2DE0539D009959A5 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */;
+			productName = KinesteXAIKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

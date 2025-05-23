@@ -5,14 +5,12 @@
 - **Real-Time Feedback**: Improve stance, punches, and form with AI guidance.  
 
 
-# **EXPERIENCE Integration Example**
+# **Experience Integration Example**
 
 ```swift
-KinesteXAIFramework.createExperienceView(
-  apiKey: apiKey, // Your unique API key
-  companyName: company, // Name of your company
-  userId: userId, // Unique identifier for the user
+kinestex.createExperienceView(
   experience: "box", // Specify the experience (e.g., "box")
+  exercise: "Boxing", // Exercise name or ID to display in the experience
   user: nil,
   isLoading: $isLoading, // Loading state
  customParams: ["style": "dark"], // dark or light theme (customizable in admin portal)

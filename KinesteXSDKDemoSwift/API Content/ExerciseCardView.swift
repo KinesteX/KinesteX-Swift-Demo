@@ -1,15 +1,16 @@
 import SwiftUI
 import AVKit
-import KinesteXAIFramework
+import KinesteXAIKit
 
 struct ExerciseCardView: View {
     let exercise: ExerciseModel
     let index: Int
     @State private var showVideoPlayer = false
+    @State private var maleVideoPlayer = false
     
     var body: some View {
         VStack {
-            if let restDuration = exercise.rest_duration {
+            if let restDuration = exercise.restDuration {
                 Text("Rest duration: \(restDuration) seconds")
                     .padding()
                     .background(Color.yellow.opacity(0.1))
@@ -24,21 +25,21 @@ struct ExerciseCardView: View {
                     Spacer()
                     
                     // Difficulty Level Indicator
-                    Text(exercise.dif_level)
+                    Text(exercise.difficultyLevel)
                         .font(.subheadline)
                         .padding(6)
-                        .background(colorForDifficulty(exercise.dif_level))
+                        .background(colorForDifficulty(exercise.difficultyLevel))
                         .foregroundColor(.white)
                         .cornerRadius(6)
                 }
-                
+                Text("Model id: \(exercise.modelId)")
                 // Exercise Thumbnail or Video Player
-                if showVideoPlayer, let videoURL = URL(string: exercise.video_URL) {
+                if showVideoPlayer, let videoURL = URL(string: exercise.videoURL) {
                     VideoPlayer(player: AVPlayer(url: videoURL))
                         .frame(maxWidth: .infinity, minHeight: 150)
                         .cornerRadius(10)
                 } else {
-                    AsyncImage(url: URL(string: exercise.thumbnail_URL)) { phase in
+                    AsyncImage(url: URL(string: exercise.thumbnailURL)) { phase in
                         switch phase {
                         case .empty:
                             ProgressView()
@@ -64,17 +65,49 @@ struct ExerciseCardView: View {
                         }
                     }
                 }
+                // Exercise Thumbnail or Video Player
+                if maleVideoPlayer, let videoURL = URL(string: exercise.maleVideoURL) {
+                    VideoPlayer(player: AVPlayer(url: videoURL))
+                        .frame(maxWidth: .infinity, minHeight: 150)
+                        .cornerRadius(10)
+                } else {
+                    AsyncImage(url: URL(string: exercise.maleThumbnailURL)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(maxWidth: .infinity, minHeight: 150)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity, minHeight: 150)
+                                .clipped()
+                                .cornerRadius(10)
+                                .onTapGesture {
+                                    maleVideoPlayer.toggle()
+                                }
+                        case .failure:
+                            Image(systemName: "photo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: .infinity, minHeight: 150)
+                                .foregroundColor(.gray)
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                }
                 
-                if let reps = exercise.workout_reps ?? exercise.avg_reps {
+                if let reps = exercise.workoutReps ?? exercise.averageReps {
                     Text("Reps: \(reps)")
                         .fontWeight(.bold)
                         .foregroundColor(.green)
-                } else if let countdown = exercise.workout_countdown ?? exercise.avg_countdown {
+                } else if let countdown = exercise.workoutCountdown ?? exercise.averageCountdown {
                     Text("Countdown: \(countdown)")
                         .fontWeight(.bold)
                         .foregroundColor(.green)
                 }
-                Text("Body Parts: \(exercise.body_parts.joined(separator: ", "))").font(.caption)
+                Text("Body Parts: \(exercise.bodyParts.joined(separator: ", "))").font(.caption)
                 
                 // Exercise Description
                 Text(exercise.description)
@@ -108,13 +141,13 @@ struct ExerciseCardView: View {
                 }
                 
                 // Common Mistakes
-                if !exercise.common_mistakes.isEmpty {
+                if !exercise.commonMistakes.isEmpty {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Common Mistakes:")
                             .font(.subheadline)
                             .fontWeight(.semibold)
                         
-                        Text(exercise.common_mistakes)
+                        Text(exercise.commonMistakes)
                             .font(.caption)
                     }
                 }

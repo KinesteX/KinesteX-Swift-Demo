@@ -10,12 +10,11 @@
 ### **1. Displaying the KinesteX Camera Component**
 
 ```swift
-KinesteXAIFramework.createCameraComponent(
-    apiKey: apiKey,
-    companyName: company,
-    userId: userId,
-    exercises: arrayAllExercises, // string array with all exercises, ex. ["Squats", "Lunges"...]
-    currentExercise: currentExerciseString, // current exercise (starting)
+@State var currentExercise = "Squats" // initialize a State variable to update current exercise
+
+kinestex.createCameraView(
+    exercises: arrayAllExercises, // string array with all exercise modelIDs (can be fetched from API) or exercise names, ex. ["Squats", "Lunges"...]
+    currentExercise: $currentExercise, // current exercise (starting)
     user: nil,
     isLoading: $isLoading,
     onMessageReceived: { message in
@@ -35,14 +34,14 @@ KinesteXAIFramework.createCameraComponent(
 Easily update the exercise being tracked through a function:
 
 ```swift
-KinesteXAIFramework.updateCurrentExercise(currentExercise) // switch current exercise name in real-time (ex. "Lunges")
+currentExercise = "NextExerciseModelID" // switch current exercise model ID or name in real-time (ex. "Lunges")
 ```
 
 ### **3. Handling Messages for Reps and Mistakes**
 Track repetitions and identify mistakes made by users in real time:
 
 ```swift
-KinesteXAIFramework.createCameraComponent(
+kinestex.createCameraView(
     // ...
     onMessageReceived: { message in
         switch message {
@@ -61,7 +60,9 @@ KinesteXAIFramework.createCameraComponent(
             if let typeString = receivedType as? String {
                 switch typeString {
                 case "models_loaded":
-                    print("ALL MODELS LOADED")
+                    print("All models loaded")
+                case "model_warmedup":
+                    print("Camera model warmed up")
                 case "person_in_frame":
                 // person got into the silhouette frame
                     withAnimation {
@@ -106,14 +107,17 @@ KinesteXAIFramework.createCameraComponent(
 ### Pause motion tracking
 To pause motion tracking specify `currentExercise` as `"Pause Exercise"` and to resume the tracking specify the exercise you want to track. Reminder: to resume the currentExercise has to be from the exercises array
 ```swift
-KinesteXAIFramework.updateCurrentExercise("Pause Exercise") // Pause
+currentExercise = "Pause Exercise" // Pause
 ...
-KinesteXAIFramework.updateCurrentExercise("Squats") // Resume with the Model ID or Exercise name
+currentExercise = "Squats" // Resume with the Model ID or Exercise name
 ```
 ### Updating current rest speech
-To update the current rest speech audio and play it immediately call `updateCurrentRestSpeech` and pass any value from the restSpeeches array. Please note that the audio you pass and want to play has to be from the restSpeeches array you pass at the initialization of the component. 
+To update the current rest speech audio and play it immediately create a new State variable `currentRestSpeech` and pass any value from the restSpeeches array. Please note that the audio you pass and want to play has to be from the restSpeeches array you pass at the initialization of the component. 
 ```swift
-KinesteXAIFramework.updateCurrentRestSpeech(restSpeeches[0]) // play the first element from the restSpeeches array
+kinestex.createCameraView(exercises: ["Squats", "Jumping Jack"], currentExercise: $currentExercise, currentRestSpeech: $currentRestSpeech, user: nil, isLoading: $isLoading, customParams: ["restSpeeches": restSpeechesArray], ...)
+
+...
+currentRestSpeech = restSpeeches[0] // play the first element from the restSpeeches array
 ```
 If audio is not being played please check logs for `error_occurred` with message: Phrase ... failed to fetch. Or alternatively listen for message `speech_fetch_complete` which will return the total successCount and failureCount for all the phrases you pass. 
 

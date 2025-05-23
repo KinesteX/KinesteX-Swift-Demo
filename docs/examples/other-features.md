@@ -2,7 +2,7 @@
 
 ```swift
  // OPTIONAL: Display loading screen during view initialization
-    KinesteXAIFramework.createMainView(...)
+    kinestex.createCategoryView(...)
     .overlay(
         Group {
             if showAnimation {

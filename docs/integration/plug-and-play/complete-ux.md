@@ -1,4 +1,4 @@
-# Compelete User Experience (createMainView): 
+# Compelete User Experience (createCategoryView): 
 With this integration option we displays 3 best workout plans based on the provided category. The user can select one of the plans and start a long-term routine.
 
 Available Categories to Sort Plans
@@ -16,12 +16,9 @@ Available Categories to Sort Plans
        // Plan category for personalized fitness goals
     @State private var planCategory: PlanCategory = .Cardio
 ```
-## 2. Displaying the main view:
+## 2. Displaying the category-based view:
   ```swift
-    KinesteXAIFramework.createMainView(
-        apiKey: apiKey,
-        companyName: company,
-        userId: userId,
+    kinestex.createCategoryView(
         planCategory: planCategory, 
         user: user, // optional: can be nil
         isLoading: $isLoading,

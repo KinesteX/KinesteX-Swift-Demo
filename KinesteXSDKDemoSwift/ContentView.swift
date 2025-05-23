@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import KinesteXAIFramework
+import KinesteXAIKit
 
 struct ContentView: View {
     @State var showKinesteX = false
@@ -14,27 +14,17 @@ struct ContentView: View {
     @State var isLoading = true
     @State var isExpanded = false
     @State var isExpandedInner = false
-
-    let apiKey = "YOUR API KEY" // store this key securely
-    let company = "YOUR COMPANY NAME"
-    let userId = "YOUR USER ID"
+    let kinestex = KinesteXAIKit(apiKey: "YOUR_API_KEY", companyName: "YOUR_COMPANY_NAME", userId: "YOUR_USER_ID")
     @State var selectedWorkout = "Fitness Lite"
     @State var selectedChallenge = "Squats"
     @State var selectedExperience = "Box"
+    
 //    let recommendedChallenges = [
 //        "Squats",
 //        "Jumping Jack",
 //        "Burpee",
 //        "Push Ups",
 //        "Lunges",
-//        "Reverse Lunges",
-//        "Knee Push Ups",
-//        "Hip Thrust",
-//        "Squat Thrusts",
-//        "Basic Crunch",
-//        "Sprinters Sit Ups",
-//        "Low Jacks",
-//        "Twisted Mountain Climber"
 //    ]
 
     
@@ -43,8 +33,12 @@ struct ContentView: View {
     @State var planCategory: PlanCategory = .Cardio
     
     var user = UserDetails(age: 20, height: 170, weight: 70, gender: .Male, lifestyle: .Active)
+    
     // for camera component
     @State var reps = 0
+    @State var maxAccuracy: Double = 0
+    @State var currentAccuracy: Double = 0
+    @State var currentExercise = "Squats" // model ID or exercise title
     @State var mistake = ""
     @State var personInFrame = false
 
@@ -227,7 +221,7 @@ struct ContentView: View {
     var kinestexView: some View {
    
         if selectedOption == "Complete UX" {
-            KinesteXAIFramework.createMainView(apiKey: apiKey, companyName: company, userId: userId, planCategory: planCategory, user: nil, isLoading: $isLoading, customParams: ["style": "light"], onMessageReceived: {
+            kinestex.createCategoryView(planCategory: planCategory, user: nil, isLoading: $isLoading, customParams: ["style": "light"], onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -239,7 +233,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Plan" {
-            KinesteXAIFramework.createPlanView(apiKey: apiKey, companyName: company, userId: userId, planName: selectedPlan, user: nil, isLoading: $isLoading, onMessageReceived: {
+            kinestex.createPlanView(plan: selectedPlan, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -251,7 +245,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Workout" {
-            KinesteXAIFramework.createWorkoutView(apiKey: apiKey, companyName: company, userId: userId, workoutName: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
+            kinestex.createWorkoutView(workout: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -259,11 +253,12 @@ struct ContentView: View {
                         break
                    // handle all other cases accordingly
                     default:
+                        print("received message: ", message)
                         break
                     }
             })
         } else if selectedOption == "Challenge" {
-            KinesteXAIFramework.createChallengeView(apiKey: apiKey, companyName: company, userId: userId, exercise: selectedChallenge, countdown: 100, user: nil, isLoading: $isLoading, customParams: ["style": "dark"], onMessageReceived: {
+            kinestex.createChallengeView(exercise: selectedChallenge, duration: 100, user: nil, isLoading: $isLoading, customParams: ["style": "dark"], onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -275,7 +270,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Experience" {
-            KinesteXAIFramework.createExperienceView(apiKey: apiKey, companyName: company, userId: userId, experience: selectedExperience, user: nil, isLoading: $isLoading, onMessageReceived: {
+            kinestex.createExperienceView(experience: "box", exercise: "Boxing", user: nil, isLoading: $isLoading, onMessageReceived: {
                 message in
                 switch message {
                 case .exit_kinestex(_):
@@ -288,11 +283,8 @@ struct ContentView: View {
             })
         }
         else if selectedOption == "Leaderboard" {
-            KinesteXAIFramework.createLeaderboardView(
-              apiKey: apiKey, // Your unique API key
-              companyName: company, // Name of your company
-              userId: userId, // Unique identifier for the user
-              exercise: "Squats", // Specify the exercise title
+            kinestex.createLeaderboardView(
+              exercise: "Squats", // Specify the exercise ID or title
               username: "", // if you know the username a person has entered: you can highlight the user by specifying their username
               isLoading: $isLoading,
               customParams: [
@@ -313,11 +305,12 @@ struct ContentView: View {
         }
         else {
             ZStack(alignment: .topTrailing) { // Changed to topTrailing alignment
-                          KinesteXAIFramework.createCameraComponent(apiKey: apiKey, companyName: company, userId: userId, exercises: ["Squats"], currentExercise: "Squats", user: nil, isLoading: $isLoading, onMessageReceived: {
+                kinestex.createCameraView(exercises: ["Squats", "Jumping Jack"], currentExercise: $currentExercise, user: nil, isLoading: $isLoading, onMessageReceived: {
                               message in
                               switch message {
                               case .reps(let value):
                                   reps = value["value"] as? Int ?? 0
+                                  maxAccuracy = value["accuracy"] as? Double ?? 0
                                   break
                               case .mistake(let value):
                                   mistake = value["value"] as? String ?? "--"
@@ -327,11 +320,13 @@ struct ContentView: View {
                                       return
                                   }
                                   if (received_type as! String == "models_loaded") {
-                                      print("ALL MODELS LOADEDDDDD")
+                                      print("All models loaded")
                                   } else if (received_type as! String == "person_in_frame") {
                                       withAnimation {
                                           personInFrame = true
                                       }
+                                  } else if (received_type as! String == "correct_position_accuracy") {
+                                      currentAccuracy = value["accuracy"] as? Double ?? 0
                                   }
                               default:
                                   break
@@ -349,13 +344,26 @@ struct ContentView: View {
                               VStack {
                                   Text("REPS: \(reps)")
                                       .padding(4)
+                                      .font(.title)
                                       .background(Color.black.opacity(0.7))
                                       .foregroundColor(.white)
+                                      .cornerRadius(5)
+                                  Text("\(maxAccuracy)%")
+                                      .padding(4)
+                                      .font(.title)
+                                      .background(Color.black.opacity(0.7))
+                                      .foregroundColor(.green)
                                       .cornerRadius(5)
                                   Text("MISTAKE: \(mistake)")
                                       .padding(4)
                                       .background(Color.black.opacity(0.7))
                                       .foregroundColor(.red)
+                                      .cornerRadius(5)
+                                  Text("Current A: \(currentAccuracy)%")
+                                      .padding(4)
+                                      .font(.title)
+                                      .background(Color.black.opacity(0.7))
+                                      .foregroundColor(.green)
                                       .cornerRadius(5)
                               }
                               .padding(12)
@@ -376,7 +384,7 @@ struct ContentView: View {
             NavigationView {
                             ZStack {
                                 if #available(iOS 14, *) {
-                                    KinesteXAIFramework.createHowToView(videoURL: "https://cdn.kinestex.com/SDK%2Fhow-to-video%2Ffinal%20light%20theme.mp4?alt=media&token=a0284982-f17b-4415-b109-36a7c623f982") {
+                                    kinestex.createHowToView(videoURL: "https://cdn.kinestex.com/SDK%2Fhow-to-video%2Ffinal%20light%20theme.mp4?alt=media&token=a0284982-f17b-4415-b109-36a7c623f982") {
                                         showExplanation.toggle()
                                     }
                                    

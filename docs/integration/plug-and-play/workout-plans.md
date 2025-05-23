@@ -9,14 +9,11 @@
 You can find exercises in our library [here](https://workout-view.kinestex.com/?tab=exercises), or create your own exercises in our [admin portal](https://admin.kinestex.com).
 
 
-# **PLAN Integration Example**
+# **Plan Integration Example**
 
 ```swift
-KinesteXAIFramework.createPlanView(
-    apiKey: apiKey,
-    companyName: company,
-    userId: userId,
-    planName: selectedPlan, // name or ID of the plan (string)
+kinestex.createPlanView(
+    plan: selectedPlan, // name or ID of the plan (string)
     user: nil, // OPTIONAL: provide user details
     isLoading: $isLoading,
     customParams: ["style": "dark"], // dark or light theme (customizable in admin portal)

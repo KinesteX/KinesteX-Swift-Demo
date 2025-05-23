@@ -1,16 +1,18 @@
-Complete code example for the `createMainView` function:
+Complete code example for the `createCategoryView` function:
 ```swift
 import SwiftUI
-import KinesteXAIFramework
+import KinesteXAIKit
 
 struct MainViewIntegration: View {
     @State private var showKinesteX = false
     @State private var isLoading = false
 
     // Replace with your KinesteX credentials
-    let apiKey = "YOUR API KEY"
-    let company = "YOUR COMPANY NAME"
-    let userId = "YOUR USER ID"
+    let kinesteXKit = KinesteXAIKit(
+        apiKey: "YOUR API KEY",
+        companyName: "YOUR COMPANY NAME",
+        userId: "YOUR USER ID"
+    )
 
     // Plan category for personalized fitness goals
     @State private var planCategory: PlanCategory = .Cardio
@@ -43,10 +45,7 @@ struct MainViewIntegration: View {
         }
         .fullScreenCover(isPresented: $showKinesteX) {
             // Main View Integration
-            KinesteXAIFramework.createMainView(
-                apiKey: apiKey,
-                companyName: company,
-                userId: userId,
+            kinestex.createCategoryView(
                 planCategory: planCategory, // Customizable plan category
                 user: nil, // Optional user details
                 isLoading: $isLoading,

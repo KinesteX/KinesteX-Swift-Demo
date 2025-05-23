@@ -4,15 +4,12 @@
 - **Boost Activity**: Keep fitness exciting and rewarding for users.  
 - **Easy Integration**: Add dynamic challenges effortlessly to your app.  
 
-# **CHALLENGE Integration Example**
+# **Challenge Integration Example**
 
 ```swift
-KinesteXAIFramework.createChallengeView(
-    apiKey: apiKey,
-    companyName: company,
-    userId: userId,
+kinestex.createChallengeView(
     exercise: challengeExercise, // exercise name or ID
-    countdown: 100, // duration of challenge in seconds
+    duration: 100, // duration of challenge in seconds
     user: nil, // Optionally pass user details
     showLeaderboard: true, // showLeaderboard prompts a user to enter a challenge at the end of the workout (true by default)
     isLoading: $isLoading,

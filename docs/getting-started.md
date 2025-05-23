@@ -21,24 +21,25 @@ Add the following keys for camera usage:
 Open project in Xcode > click project name > select target > Info tab > Custom Application Target Properties > add "Privacy - Camera Usage Description" key with message requesting camera permission.
 
 
-### 2. Install KinesteX SDK framework
+### 2. Install KinesteX AI Kit
 
 Add the framework as a package dependency with the following URL:
 
 ```xml
-https://github.com/KinesteX/KinesteX-SDK-Swift.git
+https://github.com/KinesteX/KinesteX-AI-Kit.git
 ```
-
+Now import it: 
+```
+import KinesteXAIKit
+```
 ### 3. Setup recommendations
 Initialize Variables 
  ```swift
    @State var showKinesteX = false // Controls KinesteX SDK visibility
    @State var isLoading = false    // Optional: Controls custom loading screen
-
-   let apiKey = apikey // Your KinesteX API key
-   let company = "yourcompanyname" // Your company identifier
-   let userId = userId // Unique identifier for user tracking and progress. Must be unique per user, can be any string value
-
+    
+    // Initialize KinesteXAIKit with your kinesteX API key, your company identifier, and unique identifier for user tracking and progress. Must be unique per user, can be any string value
+    let kinestex = KinesteXAIKit(apiKey: "YOUR_API_KEY", companyName: "YOUR_COMPANY_NAME", userId: "YOUR_USER_ID")
 
    // Optional: UserDetails to customize workout intensity
    let user = UserDetails(age: 20, height: 170, weight: 70, gender: .Male, lifestyle: .Active)

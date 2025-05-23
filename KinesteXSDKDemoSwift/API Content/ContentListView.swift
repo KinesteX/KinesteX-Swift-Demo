@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import KinesteXAIFramework
+import KinesteXAIKit
 
 struct ContentListView: View {
     let workouts: [WorkoutModel]?
@@ -25,7 +25,7 @@ struct ContentListView: View {
                         NavigationLink(destination: WorkoutDetailView(workout: workout)) {
                             ContentCardView(
                                 title: workout.title,
-                                imageURL: workout.img_URL,
+                                imageURL: workout.imgURL,
                                 contentType: .workout
                             )
                         }
@@ -35,7 +35,7 @@ struct ContentListView: View {
                         NavigationLink(destination: ExerciseCardView(exercise: exercise, index: 0)) {
                             ContentCardView(
                                 title: exercise.title,
-                                imageURL: exercise.thumbnail_URL,
+                                imageURL: exercise.thumbnailURL,
                                 contentType: .exercise
                             )
                         }
@@ -45,7 +45,7 @@ struct ContentListView: View {
                         NavigationLink(destination: PlanDetailView(plan: plan)) {
                             ContentCardView(
                                 title: plan.title,
-                                imageURL: plan.img_URL,
+                                imageURL: plan.imgURL,
                                 contentType: .plan
                             )
                         }

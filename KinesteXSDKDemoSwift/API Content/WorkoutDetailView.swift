@@ -1,5 +1,5 @@
 import SwiftUI
-import KinesteXAIFramework
+import KinesteXAIKit
 struct WorkoutDetailView: View {
     let workout: WorkoutModel
     
@@ -7,7 +7,7 @@ struct WorkoutDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 // Workout Image
-                AsyncImage(url: URL(string: workout.img_URL)) { phase in
+                AsyncImage(url: URL(string: workout.imgURL)) { phase in
                     switch phase {
                     case .empty:
                         ProgressView()
@@ -52,7 +52,7 @@ struct WorkoutDetailView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Duration:")
                             .fontWeight(.semibold)
-                        Text("\(workout.total_minutes ?? 0) minutes")
+                        Text("\(workout.totalMinutes ?? 0) minutes")
                     }
                     
                     Spacer()
@@ -60,7 +60,7 @@ struct WorkoutDetailView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Calories:")
                             .fontWeight(.semibold)
-                        Text("\(workout.total_calories ?? 0) kcal")
+                        Text("\(workout.totalCalories ?? 0) kcal")
                     }
                 }
                 .padding(.horizontal)
@@ -72,7 +72,7 @@ struct WorkoutDetailView: View {
                     Text("Targeted Body Parts:")
                         .font(.headline)
                     
-                    WrapView(items: workout.body_parts, spacing: 8, alignment: .leading) { part in
+                    WrapView(items: workout.bodyParts, spacing: 8, alignment: .leading) { part in
                         Text(part)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)

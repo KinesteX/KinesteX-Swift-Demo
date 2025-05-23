@@ -1,13 +1,13 @@
 {
-  "originHash" : "822b2edce7ff5da1c245ede6c01bd2bbb09c6d7b5cf5d19b08ea15af83d2d256",
+  "originHash" : "8d7b1daf8bc9cd78d8a4af3923390efac3943a622f2251edce5ca4e6ef764cf8",
   "pins" : [
     {
-      "identity" : "kinestex-sdk-swift",
+      "identity" : "kinestex-ai-kit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KinesteX/KinesteX-SDK-Swift.git",
+      "location" : "https://github.com/KinesteX/KinesteX-AI-Kit.git",
       "state" : {
-        "revision" : "b619b8ae46ac679ca7e50b8f1e13474ea417f46a",
-        "version" : "1.1.0"
+        "revision" : "0f6348504e215ad051dc84c7cc5b0b365f911ba2",
+        "version" : "1.0.4"
       }
     }
   ],

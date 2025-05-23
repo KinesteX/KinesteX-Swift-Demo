@@ -8,14 +8,11 @@
 You can find workout in our library [here](https://workout-view.kinestex.com/?tab=workouts), or create your own workouts in our [admin portal](https://admin.kinestex.com).
 
 
-# **WORKOUT Integration Example**
+# **Workout Integration Example**
 
 ```swift
-KinesteXAIFramework.createWorkoutView(
-    apiKey: apiKey,
-    companyName: company,
-    userId: userId,
-    workoutName: selectedWorkout, // workout name or ID
+kinestex.createWorkoutView(
+    workout: selectedWorkout, // workout name or ID
     user: nil,
     isLoading: $isLoading,
     customParams: ["style": "dark", "language": "en"], // dark or light theme (customizable in admin portal) // ar

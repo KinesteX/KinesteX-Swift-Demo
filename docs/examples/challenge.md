@@ -1,16 +1,24 @@
 Complete example for Challenge view
 ```swift
 import SwiftUI
-import KinesteXAIFramework
+import KinesteXAIKit // Import the new module
 
 struct ChallengeIntegrationView: View {
     @State private var showKinesteX = false
     @State private var isLoading = false
 
+    // Initialize KinesteXAIKit
     // Replace with your KinesteX credentials
-    let apiKey = "YOUR API KEY"
-    let company = "YOUR COMPANY NAME"
-    let userId = "YOUR USER ID"
+    let kinesteXKit = KinesteXAIKit(
+        apiKey: "YOUR API KEY",
+        companyName: "YOUR COMPANY NAME",
+        userId: "YOUR USER ID"
+    )
+
+    // Challenge parameters
+    let challengeExercise = "Squats"
+    let challengeDuration = 100 // Duration in seconds
+    let showLeaderboardAfterChallenge = true
 
     var body: some View {
         VStack {
@@ -25,13 +33,13 @@ struct ChallengeIntegrationView: View {
             Button(action: {
                 showKinesteX.toggle()
             }) {
-                Text("Start Squats Challenge")
+                Text("Start \(challengeExercise) Challenge (\(challengeDuration)s)")
                     .font(.title3)
                     .foregroundColor(.white)
                     .bold()
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue.cornerRadius(10))
+                    .background(Color.red.cornerRadius(10)) // Changed color
                     .padding(.horizontal)
             }
             .padding()
@@ -39,14 +47,12 @@ struct ChallengeIntegrationView: View {
             Spacer()
         }
         .fullScreenCover(isPresented: $showKinesteX) {
-            // Challenge Integration View
-            KinesteXAIFramework.createChallengeView(
-                apiKey: apiKey,
-                companyName: company,
-                userId: userId,
-                exercise: "Squats", // Fixed to "Squats" challenge
-                countdown: 100, // Challenge duration in seconds
-                user: nil,
+            // Challenge Integration View using the KinesteXAIKit instance
+            kinesteXKit.createChallengeView(
+                exercise: challengeExercise,
+                duration: challengeDuration, // Parameter name changed from countdown
+                showLeaderboard: showLeaderboardAfterChallenge, // Optional, defaults to true
+                user: nil, // Optional user details
                 isLoading: $isLoading,
                 customParams: ["style": "dark"], // Optional styling
                 onMessageReceived: { message in
@@ -54,6 +60,7 @@ struct ChallengeIntegrationView: View {
                     case .exit_kinestex(_):
                         showKinesteX = false // Dismiss challenge view
                     default:
+                        // Handle other messages from the KinesteX view
                         print("Message received: \(message)")
                     }
                 }
@@ -65,5 +72,4 @@ struct ChallengeIntegrationView: View {
 #Preview {
     ChallengeIntegrationView()
 }
-
 ```

@@ -1,18 +1,21 @@
 Complete example for Workout view
 ```swift
 import SwiftUI
-import KinesteXAIFramework
+import KinesteXAIKit // Import the new module
 
 struct WorkoutIntegrationView: View {
     @State private var showKinesteX = false
     @State private var isLoading = false
 
+    // Initialize KinesteXAIKit
     // Replace with your KinesteX credentials
-    let apiKey = "YOUR API KEY"
-    let company = "YOUR COMPANY NAME"
-    let userId = "YOUR USER ID"
+    let kinesteXKit = KinesteXAIKit(
+        apiKey: "YOUR API KEY",
+        companyName: "YOUR COMPANY NAME",
+        userId: "YOUR USER ID"
+    )
 
-    // Replace with the name of the workout
+    // Replace with the name or ID of the workout
     let workoutName = "Fitness Lite"
 
     var body: some View {
@@ -42,20 +45,18 @@ struct WorkoutIntegrationView: View {
             Spacer()
         }
         .fullScreenCover(isPresented: $showKinesteX) {
-            // Workout Integration View
-            KinesteXAIFramework.createWorkoutView(
-                apiKey: apiKey,
-                companyName: company,
-                userId: userId,
-                workoutName: workoutName, // Fixed workout name
+            // Workout Integration View using the KinesteXAIKit instance
+            kinesteXKit.createWorkoutView(
+                workout: workoutName, // Parameter name changed from workoutName
                 user: nil, // Optional user details
                 isLoading: $isLoading,
-                 customParams: ["style": "dark"], // Optional styling
+                customParams: ["style": "dark"], // Optional styling
                 onMessageReceived: { message in
                     switch message {
                     case .exit_kinestex(_):
                         showKinesteX = false // Dismiss workout view
                     default:
+                        // Handle other messages from the KinesteX view
                         print("Message received: \(message)")
                     }
                 }
@@ -67,6 +68,5 @@ struct WorkoutIntegrationView: View {
 #Preview {
     WorkoutIntegrationView()
 }
-
 
 ```

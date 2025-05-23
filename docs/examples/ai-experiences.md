@@ -1,16 +1,24 @@
 Complete code example for the `createExperienceView` function:
 ```swift
 import SwiftUI
-import KinesteXAIFramework
+import KinesteXAIKit // Import the new module
 
 struct ExperienceIntegrationView: View {
     @State private var showKinesteX = false
     @State private var isLoading = false
 
-    // Replace with your KinesteX credentials
-    let apiKey = "YOUR API KEY"
-    let company = "YOUR COMPANY NAME"
-    let userId = "YOUR USER ID"
+    // Initialize KinesteXAIKit
+    // IMPORTANT: Replace placeholder values with your actual API Key, Company Name, and User ID.
+    let kinesteXKit = KinesteXAIKit(
+        apiKey: "YOUR_API_KEY",
+        companyName: "YOUR_COMPANY_NAME",
+        userId: "YOUR_USER_ID"
+    )
+
+    // Parameters for the experience
+    let experienceName = "box" // Name of the AI experience
+    let experienceExercise = "Boxing" // Exercise associated with the experience 
+    let experienceDuration = 90 // Optional: duration in seconds, defaults to 60 in SDK
 
     var body: some View {
         VStack {
@@ -25,13 +33,13 @@ struct ExperienceIntegrationView: View {
             Button(action: {
                 showKinesteX.toggle()
             }) {
-                Text("Start 'Box' Experience")
+                Text("Start '\(experienceName.capitalized)' Experience")
                     .font(.title3)
                     .foregroundColor(.white)
                     .bold()
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.purple.cornerRadius(10))
+                    .background(Color.teal.cornerRadius(10)) // Changed color
                     .padding(.horizontal)
             }
             .padding()
@@ -39,13 +47,12 @@ struct ExperienceIntegrationView: View {
             Spacer()
         }
         .fullScreenCover(isPresented: $showKinesteX) {
-            // AI Experience Integration
-            KinesteXAIFramework.createExperienceView(
-                apiKey: apiKey,
-                companyName: company,
-                userId: userId,
-                experience: "box", // Name of the AI experience
-                user: nil,
+            // AI Experience Integration using the KinesteXAIKit instance
+            kinesteXKit.createExperienceView(
+                experience: experienceName,
+                exercise: experienceExercise, // Required exercise parameter
+                duration: experienceDuration, // Optional duration
+                user: nil, // Optional user details
                 isLoading: $isLoading,
                 customParams: ["style": "dark"], // Optional styling
                 onMessageReceived: { message in
@@ -53,6 +60,7 @@ struct ExperienceIntegrationView: View {
                     case .exit_kinestex(_):
                         showKinesteX = false // Dismiss the experience view
                     default:
+                        // Handle other messages from the KinesteX view
                         print("Message received: \(message)")
                     }
                 }
@@ -64,5 +72,4 @@ struct ExperienceIntegrationView: View {
 #Preview {
     ExperienceIntegrationView()
 }
-
 ```
