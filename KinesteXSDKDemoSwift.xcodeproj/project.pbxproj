@@ -185,8 +185,6 @@
 			);
 			name = KinesteXSDKDemoSwift;
 			packageProductDependencies = (
-				AB6339992D61293500A4E12F /* KinesteXAIFramework */,
-				AB63399D2D61295600A4E12F /* KinesteXAIFramework */,
 				ABFE1C6D2DE0539D009959A5 /* KinesteXAIKit */,
 			);
 			productName = KinesteXSDKDemoSwift;
@@ -688,14 +686,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AB6339992D61293500A4E12F /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
-		AB63399D2D61295600A4E12F /* KinesteXAIFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KinesteXAIFramework;
-		};
 		ABFE1C6D2DE0539D009959A5 /* KinesteXAIKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = ABFE1C6C2DE0539D009959A5 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */;

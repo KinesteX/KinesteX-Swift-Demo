@@ -1,6 +1,6 @@
 # KinesteX Workout, Plans, and Exercises API
 
-KinesteXAIFramework, through the `KinesteXAIKit`, enables you to fetch our diverse content data such as workouts, plans, and exercises. Whether you're building a fitness app, a training platform, or any content-driven application, `KinesteXAIKit` provides a robust and easy-to-use API to enhance your app's functionality.
+`KinesteXAIKit` enables you to fetch our diverse content data such as workouts, plans, and exercises. Whether you're building a fitness app, a training platform, or any content-driven application, `KinesteXAIKit` provides a robust and easy-to-use API to enhance your app's functionality.
 
 ## Features
 
@@ -14,7 +14,7 @@ KinesteXAIFramework, through the `KinesteXAIKit`, enables you to fetch our diver
 
 ### Swift Package Manager
 
-KinesteXAIFramework is available through [Swift Package Manager](https://swift.org/package-manager/). To integrate it into your project:
+KinesteXAIKit is available through [Swift Package Manager](https://swift.org/package-manager/). To integrate it into your project:
 
 1.  Open your project in Xcode.
 2.  Navigate to **File > Add Packages**.
@@ -59,7 +59,7 @@ Alternatively, `KinesteXAIKit` provides convenient helper methods like `fetchWor
 
 ### Models
 
-KinesteXAIFramework includes several data models representing different content types:
+KinesteXAIKit includes several data models representing different content types:
 
 - **WorkoutModel:** Details about a workout.
 - **ExerciseModel:** Details about an exercise.
