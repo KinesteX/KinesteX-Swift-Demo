@@ -16,9 +16,8 @@ struct ExperienceIntegrationView: View {
     )
 
     // Parameters for the experience
-    let experienceName = "box" // Name of the AI experience
-    let experienceExercise = "Boxing" // Exercise associated with the experience 
-    let experienceDuration = 90 // Optional: duration in seconds, defaults to 60 in SDK
+    let experienceName = "assessment" // Name of the AI experience
+    let experienceExercise = "balloonpop" // Exercise associated with the experience 
 
     var body: some View {
         VStack {
@@ -51,7 +50,6 @@ struct ExperienceIntegrationView: View {
             kinesteXKit.createExperienceView(
                 experience: experienceName,
                 exercise: experienceExercise, // Required exercise parameter
-                duration: experienceDuration, // Optional duration
                 user: nil, // Optional user details
                 isLoading: $isLoading,
                 customParams: ["style": "dark"], // Optional styling
