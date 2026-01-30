@@ -8,13 +8,19 @@
 import SwiftUI
 import KinesteXAIKit
 
+struct ExerciseStep {
+    let modelId: String
+    let restSpeechId: String
+    let displayName: String // For UI display if needed
+}
+
 struct ContentView: View {
     @State var showKinesteX = false
     @State var showExplanation = false
     @State var isLoading = true
     @State var isExpanded = false
     @State var isExpandedInner = false
-    let kinestex = KinesteXAIKit(apiKey: "YOUR_API_KEY", companyName: "YOUR_COMPANY_NAME", userId: "YOUR_USER_ID")
+    let kinestex = KinesteXAIKit(apiKey: "your_api_key", companyName: "your_company_name", userId: "your_user_id")
     @State var selectedWorkout = "Fitness Lite"
     @State var selectedChallenge = "Squats"
     @State var selectedExperience = "Box"
@@ -27,8 +33,36 @@ struct ContentView: View {
 //        "Lunges",
 //    ]
 
+// custom workout parameters
+    @State var workoutAction: [String: Any]? = nil // we will send workout start action to launch the phone orientation check
+    @State var customWorkoutReady = false
     
-    @State var selectedPlan = "Full Cardio"
+    // workout config, consists of exercise elements 
+    let customWorkoutExercises: [WorkoutSequenceExercise] = [
+        WorkoutSequenceExercise(
+            exerciseId: "jz73VFlUyZ9nyd64OjRb",
+            reps: 15,
+            duration: nil,
+            includeRestPeriod: true,
+            restDuration: 20
+        ),
+        WorkoutSequenceExercise(
+            exerciseId: "ZVMeLsaXQ9Tzr5JYXg29",
+            reps: 10,
+            duration: 30,
+            includeRestPeriod: true,
+            restDuration: 15
+        ),
+        WorkoutSequenceExercise(
+            exerciseId: "gJGOiZhCvJrhEP7sTy78",
+            reps: 20,
+            duration: nil,
+            includeRestPeriod: false,
+            restDuration: 0
+        )
+    ]
+    
+    @State var selectedPlan = "YFC Plan"
     @State var selectedOption = "Complete UX"
     @State var planCategory: PlanCategory = .Cardio
     
@@ -38,7 +72,72 @@ struct ContentView: View {
     @State var reps = 0
     @State var maxAccuracy: Double = 0
     @State var currentAccuracy: Double = 0
-    @State var currentExercise = "Squats" // model ID or exercise title
+    // Use the model ID for the initial exercise
+    
+    let workoutSequence: [ExerciseStep] = [
+         ExerciseStep(
+             modelId: "FnVw8iNoh9CoNzRtMTVN",
+             restSpeechId: "get-ready-for-squats-stand-tall-feet-sho-950620fb49c662491f175fceac3a6e26e90c1081",
+             displayName: "Squats"
+         ),
+         ExerciseStep(
+             modelId: "ybdSQyx3FKOuOO617R1v",
+             restSpeechId: "start-standing-tall-feet-together-arms-b-bd694fd3d8af1e56f940aadcc9d853d42466b3c0",
+             displayName: "Jumping Jacks"
+         ),
+     ]
+    
+    // ADD a state to track our position in the sequence (rest/exercise)
+      @State private var sequenceIndex = 0
+    @State var currentExercise = "Pause Exercise"
+    @State var currentRestSpeech: String? = nil
+    
+    // Add these two functions inside your ContentView struct
+
+    private func updateStateForCurrentIndex() {
+        // An even index is a REST step, an odd index is an EXERCISE step
+        if sequenceIndex % 2 == 0 { // This is a REST step
+            let exerciseIndex = sequenceIndex / 2
+            // Ensure we are not at the very end of the workout
+            if exerciseIndex < workoutSequence.count {
+                currentExercise = "Pause Exercise"
+                currentRestSpeech = workoutSequence[exerciseIndex].restSpeechId
+            }
+        } else { // This is an EXERCISE step
+            let exerciseIndex = (sequenceIndex - 1) / 2
+            if exerciseIndex < workoutSequence.count {
+                currentExercise = workoutSequence[exerciseIndex].modelId
+                currentRestSpeech = nil // No rest speech during an exercise
+            }
+        }
+
+        // Reset stats every time we change step
+        reps = 0
+        maxAccuracy = 0
+        mistake = ""
+        currentAccuracy = 0
+    }
+
+    private func cycleStep(forward: Bool) {
+        // Total steps = (number of exercises * 2)
+        // e.g., 2 exercises = 4 steps (Rest, Ex1, Rest, Ex2)
+        // Max index is total steps - 1
+        let maxIndex = workoutSequence.count * 2 - 1
+        var newIndex = sequenceIndex
+
+        if forward {
+            newIndex += 1
+        } else {
+            newIndex -= 1
+        }
+
+        // Boundary check to prevent going out of range
+        if newIndex >= 0 && newIndex <= maxIndex {
+            sequenceIndex = newIndex
+            updateStateForCurrentIndex()
+        }
+    }
+    
     @State var mistake = ""
     @State var personInFrame = false
 
@@ -213,6 +312,13 @@ struct ContentView: View {
             RadioButton(title: "Camera", isSelected: selectedOption == "Camera", action: {
                 selectedOption = "Camera"
             })
+            
+            RadioButton(title: "Custom Workout", isSelected: selectedOption == "Custom Workout", action: {
+                selectedOption = "Custom Workout"
+            })
+            RadioButton(title: "Admin Editor", isSelected: selectedOption == "Admin Editor", action: {
+                selectedOption = "Admin Editor"
+            })
         }
         
     }
@@ -221,7 +327,7 @@ struct ContentView: View {
     var kinestexView: some View {
    
         if selectedOption == "Complete UX" {
-            kinestex.createCategoryView(planCategory: planCategory, user: nil, isLoading: $isLoading, customParams: ["style": "light"], onMessageReceived: {
+            kinestex.createCategoryView(planCategory: planCategory, user: nil, style: nil, isLoading: $isLoading, customParams: ["style": "light"], onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -233,7 +339,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Plan" {
-            kinestex.createPlanView(plan: selectedPlan, user: nil, isLoading: $isLoading, onMessageReceived: {
+            kinestex.createPlanView(plan: selectedPlan, user: nil, style: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -245,7 +351,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Workout" {
-            kinestex.createWorkoutView(workout: selectedWorkout, user: nil, isLoading: $isLoading, onMessageReceived: {
+            kinestex.createPersonalizedPlanView(user: nil, style: nil, isLoading: $isLoading, onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -258,7 +364,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Challenge" {
-            kinestex.createChallengeView(exercise: selectedChallenge, duration: 100, user: nil, isLoading: $isLoading, customParams: ["style": "dark"], onMessageReceived: {
+            kinestex.createChallengeView(exercise: selectedChallenge, duration: 100, user: nil, style: nil, isLoading: $isLoading, customParams: ["style": "dark"], onMessageReceived: {
                     message in
                     switch message {
                     case .exit_kinestex(_):
@@ -270,7 +376,7 @@ struct ContentView: View {
                     }
             })
         } else if selectedOption == "Experience" {
-            kinestex.createExperienceView(experience: "box", exercise: "Boxing", user: nil, isLoading: $isLoading, onMessageReceived: {
+            kinestex.createExperienceView(experience: "box", exercise: "Boxing", user: nil, style: nil, isLoading: $isLoading, onMessageReceived: {
                 message in
                 switch message {
                 case .exit_kinestex(_):
@@ -286,6 +392,7 @@ struct ContentView: View {
             kinestex.createLeaderboardView(
               exercise: "Squats", // Specify the exercise ID or title
               username: "", // if you know the username a person has entered: you can highlight the user by specifying their username
+              style: nil,
               isLoading: $isLoading,
               customParams: [
                 "style": "dark", // light or dark theme (default is dark)
@@ -303,78 +410,192 @@ struct ContentView: View {
                 }
             })
         }
+        else if selectedOption == "Custom Workout" {
+            kinestex.createCustomWorkoutView(
+                exercises: customWorkoutExercises,
+                user: user,
+                style: nil,
+                isLoading: $isLoading,
+                workoutAction: $workoutAction,
+                customParams: ["style": "dark"],
+                onMessageReceived: { message in
+                    switch message {
+                    case .exit_kinestex(_):
+                        showKinesteX = false
+                        customWorkoutReady = false
+                    case .custom_type(let value):
+                        guard let receivedType = value["type"] as? String else { return }
+                        
+                        if receivedType == "all_resources_loaded" {
+                            print("All resources loaded - starting workout")
+                            customWorkoutReady = true
+                            // Send start action
+                            workoutAction = [
+                                "workout_activity_action": "start"
+                            ]
+                        } else if receivedType == "workout_exit_request" {
+                            showKinesteX = false
+                        }
+                    case .error_occurred(let value):
+                        print("Error: \(value)")
+                    case .workout_completed(let value):
+                        print("Workout completed: \(value)")
+                        showKinesteX = false
+                    default:
+                        print("Custom Workout message: \(message)")
+                    }
+                }
+            )
+        }
+        else if selectedOption == "Admin Editor" {
+            kinestex.createAdminWorkoutEditor(
+                organization: "YourOrganization", // Replace with your organization name
+                contentType: nil, // Optional: .workout, .plan, or .exercise
+                contentId: nil,   // Optional: specific content ID to edit
+                customQueries: nil, // Optional: additional query parameters
+                isLoading: $isLoading,
+                customParams: [:],
+                onMessageReceived: { message in
+                    switch message {
+                    case .exit_kinestex(_):
+                        showKinesteX = false
+                    case .custom_type(let value):
+                        print("Admin Editor message: \(value)")
+                    default:
+                        print("Admin message: \(message)")
+                    }
+                }
+            )
+        }
         else {
-            ZStack(alignment: .topTrailing) { // Changed to topTrailing alignment
-                kinestex.createCameraView(exercises: ["Squats", "Jumping Jack"], currentExercise: $currentExercise, user: nil, isLoading: $isLoading, onMessageReceived: {
-                              message in
-                              switch message {
-                              case .reps(let value):
-                                  reps = value["value"] as? Int ?? 0
-                                  maxAccuracy = value["accuracy"] as? Double ?? 0
-                                  break
-                              case .mistake(let value):
-                                  mistake = value["value"] as? String ?? "--"
-                                  break
-                              case .custom_type(let value):
-                                  guard let received_type = value["type"] else {
-                                      return
-                                  }
-                                  if (received_type as! String == "models_loaded") {
-                                      print("All models loaded")
-                                  } else if (received_type as! String == "person_in_frame") {
-                                      withAnimation {
-                                          personInFrame = true
-                                      }
-                                  } else if (received_type as! String == "correct_position_accuracy") {
-                                      currentAccuracy = value["accuracy"] as? Double ?? 0
-                                  }
-                              default:
-                                  break
-                              }
-                          })
-                           // resize the frame to display exercise content accordingly
-                          .frame(
-                              width: personInFrame ? 100 : UIScreen.main.bounds.width,
-                              height: personInFrame ? 200 : UIScreen.main.bounds.height
-                          )
-                          .cornerRadius(personInFrame ? 10 : 0) // Add rounded corners when minimized
-                          .padding(personInFrame ? 8 : 0) // Add some padding when minimized
-                          
-                          if personInFrame {
-                              VStack {
-                                  Text("REPS: \(reps)")
-                                      .padding(4)
-                                      .font(.title)
-                                      .background(Color.black.opacity(0.7))
-                                      .foregroundColor(.white)
-                                      .cornerRadius(5)
-                                  Text("\(maxAccuracy)%")
-                                      .padding(4)
-                                      .font(.title)
-                                      .background(Color.black.opacity(0.7))
-                                      .foregroundColor(.green)
-                                      .cornerRadius(5)
-                                  Text("MISTAKE: \(mistake)")
-                                      .padding(4)
-                                      .background(Color.black.opacity(0.7))
-                                      .foregroundColor(.red)
-                                      .cornerRadius(5)
-                                  Text("Current A: \(currentAccuracy)%")
-                                      .padding(4)
-                                      .font(.title)
-                                      .background(Color.black.opacity(0.7))
-                                      .foregroundColor(.green)
-                                      .cornerRadius(5)
-                              }
-                              .padding(12)
-                          } else {
-                              VStack {
-                                  Text("REPS: \(reps)")
-                                  Text("MISTAKE: \(mistake)").foregroundColor(.red)
-                                  Spacer()
-                              }
-                          }
-                      }
+            ZStack {
+                kinestex.createCameraView(
+                    exercises: workoutSequence.map { $0.modelId },
+                    currentExercise: $currentExercise,
+                    currentRestSpeech: $currentRestSpeech,
+                    user: nil,
+                    style: nil,
+                    isLoading: $isLoading,
+                    customParams: [
+                        // Pass all rest speeches that will be used
+                        "restSpeeches": workoutSequence.map { $0.restSpeechId },
+                        "includePoseBorders": false
+                    ],
+                    onMessageReceived: { message in
+                        switch message {
+                        case .reps(let value):
+                            reps = value["value"] as? Int ?? 0
+                            maxAccuracy = value["accuracy"] as? Double ?? 0
+                            break
+                        case .mistake(let value):
+                            mistake = value["value"] as? String ?? "--"
+                            break
+                        case .custom_type(let value):
+                            guard let received_type = value["type"] else {
+                                return
+                            }
+                            if (received_type as! String == "models_loaded") {
+                                print("All models loaded")
+                            } else if (received_type as! String
+                                       == "person_in_frame")
+                            {
+                                withAnimation {
+                                    personInFrame = true
+                                }
+                            } else if (received_type as! String
+                                       == "correct_position_accuracy")
+                            {
+                                currentAccuracy =
+                                value["accuracy"] as? Double ?? 0
+                            }
+                        default:
+                            break
+                        }
+                    }
+                )
+                .frame(
+                    width: personInFrame ? 100 : UIScreen.main.bounds.width,
+                    height: personInFrame ? 200 : UIScreen.main.bounds.height
+                )
+                .cornerRadius(personInFrame ? 10 : 0)
+                .padding(personInFrame ? 8 : 0)
+                
+                if personInFrame {
+                    VStack {
+                        Text("REPS: \(reps)")
+                            .padding(4)
+                            .font(.title)
+                            .background(Color.black.opacity(0.7))
+                            .foregroundColor(.white)
+                            .cornerRadius(5)
+                        Text("\(maxAccuracy)%")
+                            .padding(4)
+                            .font(.title)
+                            .background(Color.black.opacity(0.7))
+                            .foregroundColor(.green)
+                            .cornerRadius(5)
+                        Text("MISTAKE: \(mistake)")
+                            .padding(4)
+                            .background(Color.black.opacity(0.7))
+                            .foregroundColor(.red)
+                            .cornerRadius(5)
+                        Text("Current A: \(currentAccuracy)%")
+                            .padding(4)
+                            .font(.title)
+                            .background(Color.black.opacity(0.7))
+                            .foregroundColor(.green)
+                            .cornerRadius(5)
+                    }
+                    .padding(12)
+                } else {
+                    VStack {
+                        Text("REPS: \(reps)")
+                        Text("MISTAKE: \(mistake)").foregroundColor(.red)
+                        Spacer()
+                    }
+                }
+                
+                VStack {
+                    Spacer() // Pushes the buttons to the bottom
+                    HStack(spacing: 20) {
+                        // Previous Button
+                        Button(action: {
+                            cycleStep(forward: false)
+                        }) {
+                            Image(systemName: "backward.fill")
+                                .font(.title)
+                                .padding()
+                                .background(Color.blue.opacity(0.8))
+                                .foregroundColor(.white)
+                                .clipShape(Circle())
+                        }
+                        // Disable button if at the very first step
+                        .disabled(sequenceIndex == 0)
+                        
+                        // Next Button
+                        Button(action: {
+                            cycleStep(forward: true)
+                        }) {
+                            Image(systemName: "forward.fill")
+                                .font(.title)
+                                .padding()
+                                .background(Color.blue.opacity(0.8))
+                                .foregroundColor(.white)
+                                .clipShape(Circle())
+                        }
+                        // Disable button if at the very last step
+                        .disabled(sequenceIndex >= workoutSequence.count * 2 - 1)
+                    }
+                    .padding(.bottom, 50)
+                }
+            }
+            .onAppear {
+                // When the view appears, set up the initial state for the
+                // first rest period.
+                sequenceIndex = 0
+                updateStateForCurrentIndex()
+            }
+        
         }
         
     }

@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/KinesteX/KinesteX-AI-Kit.git",
       "state" : {
-        "revision" : "0f6348504e215ad051dc84c7cc5b0b365f911ba2",
-        "version" : "1.0.4"
+        "revision" : "78e27b3a52659b8b13fc176679e2cf89931d4051",
+        "version" : "1.0.8"
       }
     }
   ],

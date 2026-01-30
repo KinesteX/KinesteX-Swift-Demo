@@ -32,6 +32,7 @@ struct ExerciseCardView: View {
                         .foregroundColor(.white)
                         .cornerRadius(6)
                 }
+                Text("Exercise id: \(exercise.id)")
                 Text("Model id: \(exercise.modelId)")
                 // Exercise Thumbnail or Video Player
                 if showVideoPlayer, let videoURL = URL(string: exercise.videoURL) {
