@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		AB1BC8862E323E0F00E2F183 /* CameraWorkoutPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BC8852E323E0F00E2F183 /* CameraWorkoutPlayer.swift */; };
 		AB1BC8882E323FB000E2F183 /* WorkoutLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BC8872E323FB000E2F183 /* WorkoutLoaderView.swift */; };
-		AB3192772F2CA94500D7514E /* KinesteXAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = AB3192762F2CA94500D7514E /* KinesteXAIKit */; };
+		AB38544D2F4DCFF1004212E1 /* KinesteXAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = AB38544C2F4DCFF1004212E1 /* KinesteXAIKit */; };
 		AB4797412CDFC49F00387B21 /* ContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4797402CDFC49F00387B21 /* ContentListView.swift */; };
 		AB4BEA182E27018100169DE9 /* KinesteXAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = AB4BEA172E27018100169DE9 /* KinesteXAIKit */; };
 		AB7F8A662CD7B444003B8EFA /* APIDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7F8A652CD7B444003B8EFA /* APIDemoView.swift */; };
@@ -67,12 +67,16 @@
 		ABAEB36D2C0CD9E100BD90AD /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		AB38544F2F4E4A67004212E1 /* Custom-Onboarding-Example */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Custom-Onboarding-Example"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		ABAEB3302C0CBDE800BD90AD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB3192772F2CA94500D7514E /* KinesteXAIKit in Frameworks */,
+				AB38544D2F4DCFF1004212E1 /* KinesteXAIKit in Frameworks */,
 				AB4BEA182E27018100169DE9 /* KinesteXAIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,6 +142,7 @@
 		ABAEB3352C0CBDE800BD90AD /* KinesteXSDKDemoSwift */ = {
 			isa = PBXGroup;
 			children = (
+				AB38544F2F4E4A67004212E1 /* Custom-Onboarding-Example */,
 				AB7F8A712CD8307B003B8EFA /* API Content */,
 				ABAEB3362C0CBDE800BD90AD /* KinesteXSDKDemoSwiftApp.swift */,
 				ABAEB3382C0CBDE800BD90AD /* ContentView.swift */,
@@ -191,10 +196,13 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				AB38544F2F4E4A67004212E1 /* Custom-Onboarding-Example */,
+			);
 			name = KinesteXSDKDemoSwift;
 			packageProductDependencies = (
 				AB4BEA172E27018100169DE9 /* KinesteXAIKit */,
-				AB3192762F2CA94500D7514E /* KinesteXAIKit */,
+				AB38544C2F4DCFF1004212E1 /* KinesteXAIKit */,
 			);
 			productName = KinesteXSDKDemoSwift;
 			productReference = ABAEB3332C0CBDE800BD90AD /* KinesteXSDKDemoSwift.app */;
@@ -269,7 +277,7 @@
 			);
 			mainGroup = ABAEB32A2C0CBDE800BD90AD;
 			packageReferences = (
-				AB3192752F2CA94500D7514E /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */,
+				AB38544E2F4E499B004212E1 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */,
 			);
 			productRefGroup = ABAEB3342C0CBDE800BD90AD /* Products */;
 			projectDirPath = "";
@@ -686,20 +694,19 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AB3192752F2CA94500D7514E /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */ = {
+		AB38544E2F4E499B004212E1 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/KinesteX/KinesteX-AI-Kit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.8;
+				minimumVersion = 1.0.9;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AB3192762F2CA94500D7514E /* KinesteXAIKit */ = {
+		AB38544C2F4DCFF1004212E1 /* KinesteXAIKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AB3192752F2CA94500D7514E /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */;
 			productName = KinesteXAIKit;
 		};
 		AB4BEA172E27018100169DE9 /* KinesteXAIKit */ = {

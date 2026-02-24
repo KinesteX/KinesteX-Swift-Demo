@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(tail:*)",
+      "Bash(grep:*)",
+      "Bash(tail:)",
+      "Bash(curl:*)",
+      "Bash(head:*)"
+    ]
+  }
+}
