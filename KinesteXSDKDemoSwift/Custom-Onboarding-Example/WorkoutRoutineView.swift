@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import KinesteXAIKit
 
 // MARK: - Grouped Exercise Model
 
@@ -19,38 +18,36 @@ struct GroupedExercise: Identifiable {
     let duration: Int? // seconds
     let restDuration: Int?
     let setCount: Int
-    let exercises: [ExerciseModel]
 }
 
 // MARK: - Grouping Logic
 
-func groupExercises(_ sequence: [ExerciseModel]) -> [GroupedExercise] {
-    guard !sequence.isEmpty else { return [] }
+func groupExercises(_ exercises: [WorkoutExerciseItem]) -> [GroupedExercise] {
+    guard !exercises.isEmpty else { return [] }
 
     var groups: [GroupedExercise] = []
     var i = 0
     var groupIndex = 1
 
-    while i < sequence.count {
-        let current = sequence[i]
-        var setExercises = [current]
+    while i < exercises.count {
+        let current = exercises[i]
+        var count = 1
 
         // Look ahead for consecutive exercises with the same id
         var j = i + 1
-        while j < sequence.count && sequence[j].id == current.id {
-            setExercises.append(sequence[j])
+        while j < exercises.count && exercises[j].exerciseId == current.exerciseId {
+            count += 1
             j += 1
         }
 
         groups.append(GroupedExercise(
             index: groupIndex,
             title: current.title,
-            exerciseId: current.id,
-            reps: current.workoutReps,
-            duration: current.workoutCountdown,
+            exerciseId: current.exerciseId,
+            reps: current.reps,
+            duration: current.countdown,
             restDuration: current.restDuration,
-            setCount: setExercises.count,
-            exercises: setExercises
+            setCount: count
         ))
 
         groupIndex += 1
@@ -74,27 +71,30 @@ private func formatDuration(_ seconds: Int) -> String {
 // MARK: - Workout Routine View
 
 struct WorkoutRoutineView: View {
-    let workout: WorkoutModel
+    let title: String
+    let totalMinutes: Int?
+    let difficultyLevel: String?
+    let exercises: [WorkoutExerciseItem]
     let onStart: () -> Void
 
     var body: some View {
-        let groups = groupExercises(workout.sequence)
+        let groups = groupExercises(exercises)
 
         VStack(alignment: .leading, spacing: 0) {
             // Header
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(workout.title)
+                    Text(title)
                         .font(.subheadline)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                     HStack(spacing: 6) {
-                        if let mins = workout.totalMinutes {
+                        if let mins = totalMinutes {
                             Text("\(mins) min")
                                 .font(.caption2)
                                 .foregroundColor(.gray)
                         }
-                        if let diff = workout.difficultyLevel {
+                        if let diff = difficultyLevel {
                             Text(diff)
                                 .font(.caption2)
                                 .foregroundColor(.gray)

@@ -6,7 +6,8 @@
       "Bash(grep:*)",
       "Bash(tail:)",
       "Bash(curl:*)",
-      "Bash(head:*)"
+      "Bash(head:*)",
+      "Bash(xcodebuild:*)"
     ]
   }
 }

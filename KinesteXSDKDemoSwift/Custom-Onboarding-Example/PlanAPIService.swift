@@ -53,10 +53,121 @@ struct ClientCurrentWorkout: Decodable {
     let id: String?
     let title: String?
     let img_url: String?
+    let desc_img_url: String?
     let calories: Double?
     let total_minutes: Int?
+    let total_time: Int?
     let dif_level: String?
+    let category: String?
+    let body_parts: [String]?
+    let workout_sequences: [ClientWorkoutSequenceItem]?
     let translation: ClientTranslation?
+
+    enum CodingKeys: String, CodingKey {
+        case id, title, img_url, desc_img_url, calories, total_minutes, total_time
+        case dif_level, category, body_parts, workout_sequences, translation
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        // Handle id as either Int or String from API
+        if let intId = try? container.decode(Int.self, forKey: .id) {
+            id = String(intId)
+        } else {
+            id = try? container.decode(String.self, forKey: .id)
+        }
+        title = try? container.decodeIfPresent(String.self, forKey: .title)
+        img_url = try? container.decodeIfPresent(String.self, forKey: .img_url)
+        desc_img_url = try? container.decodeIfPresent(String.self, forKey: .desc_img_url)
+        calories = try? container.decodeIfPresent(Double.self, forKey: .calories)
+        total_minutes = try? container.decodeIfPresent(Int.self, forKey: .total_minutes)
+        total_time = try? container.decodeIfPresent(Int.self, forKey: .total_time)
+        dif_level = try? container.decodeIfPresent(String.self, forKey: .dif_level)
+        category = try? container.decodeIfPresent(String.self, forKey: .category)
+        body_parts = try? container.decodeIfPresent([String].self, forKey: .body_parts)
+        workout_sequences = try? container.decodeIfPresent([ClientWorkoutSequenceItem].self, forKey: .workout_sequences)
+        translation = try? container.decodeIfPresent(ClientTranslation.self, forKey: .translation)
+    }
+
+    var displayTitle: String {
+        translation?.title ?? title ?? category ?? "Current Workout"
+    }
+
+    /// Processes workout_sequences into exercise items, filtering out rest sequences
+    /// and associating rest durations from following rest entries.
+    func processedExercises() -> [WorkoutExerciseItem] {
+        guard let sequences = workout_sequences else { return [] }
+        let sorted = sequences.sorted { ($0.order ?? 0) < ($1.order ?? 0) }
+        var result: [WorkoutExerciseItem] = []
+
+        for (index, seq) in sorted.enumerated() {
+            guard seq.is_rest_sequence != true,
+                  let exercise = seq.exercise,
+                  let exerciseId = exercise.id else {
+                continue
+            }
+            // Rest duration comes from the following rest sequence
+            var restDuration: Int = 0
+            if index + 1 < sorted.count, sorted[index + 1].is_rest_sequence == true {
+                restDuration = sorted[index + 1].countdown ?? 0
+            }
+            result.append(WorkoutExerciseItem(
+                exerciseId: exerciseId,
+                title: exercise.translation?.title ?? "Exercise",
+                reps: seq.repeats,
+                countdown: seq.countdown,
+                restDuration: restDuration
+            ))
+        }
+        return result
+    }
+}
+
+// MARK: - Workout Sequence Models
+
+struct ClientWorkoutSequenceItem: Decodable {
+    let order: Int?
+    let countdown: Int?
+    let repeats: Int?
+    let is_rest_sequence: Bool?
+    let exercise_id: Int?
+    let exercise: ClientSequenceExercise?
+}
+
+struct ClientSequenceExercise: Decodable {
+    let id: String?
+    let ai_model: ClientAIModel?
+    let thumbnail_url: String?
+    let video_url: String?
+    let male_thumbnail_url: String?
+    let male_video_url: String?
+    let body_parts: [String]?
+    let difficulty_level: String?
+    let translation: ClientExerciseTranslation?
+}
+
+struct ClientAIModel: Decodable {
+    let id: String?
+}
+
+struct ClientExerciseTranslation: Decodable {
+    let title: String?
+    let description: String?
+    let rest_speech: String?
+    let rest_speech_text: String?
+    let common_mistakes: String?
+    let tips: [String]?
+    let exercise_steps: [String]?
+}
+
+/// Processed exercise item used for display and custom workout launch
+struct WorkoutExerciseItem: Identifiable {
+    let id = UUID()
+    let exerciseId: String
+    let title: String
+    let reps: Int?
+    let countdown: Int?
+    let restDuration: Int?
 }
 
 struct ClientWeek: Decodable {

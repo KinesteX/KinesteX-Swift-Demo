@@ -37,9 +37,6 @@ struct PlanOnboardingView: View {
     @State private var fetchError: String?
     @State private var expandedWeeks: [Int: Bool] = [:]
 
-    // Current workout detail (fetched via SDK)
-    @State private var currentWorkoutModel: WorkoutModel?
-
     @State private var isPlanDetailExpanded = false
 
     // Custom workout launch state
@@ -57,8 +54,8 @@ struct PlanOnboardingView: View {
         if showOnboarding {
             onboardingView
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else if showCustomWorkout, let workout = currentWorkoutModel {
-            customWorkoutView(workout: workout)
+        } else if showCustomWorkout, !currentExercises.isEmpty {
+            customWorkoutView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if let workoutName = selectedWorkoutName {
             standaloneWorkoutView(name: workoutName)
@@ -88,12 +85,12 @@ struct PlanOnboardingView: View {
 
     // MARK: - Custom Workout View
     @ViewBuilder
-    func customWorkoutView(workout: WorkoutModel) -> some View {
-        let exercises = workout.sequence.map { ex in
+    func customWorkoutView() -> some View {
+        let exercises = currentExercises.map { ex in
             WorkoutSequenceExercise(
-                exerciseId: ex.id,
-                reps: ex.workoutReps,
-                duration: ex.workoutCountdown,
+                exerciseId: ex.exerciseId,
+                reps: ex.reps,
+                duration: ex.countdown,
                 includeRestPeriod: (ex.restDuration ?? 0) > 0,
                 restDuration: ex.restDuration ?? 0
             )
@@ -106,16 +103,23 @@ struct PlanOnboardingView: View {
                 style: nil,
                 isLoading: $isLoading,
                 workoutAction: $workoutAction,
-                customParams: ["style": "dark", "planId": planId, "planType": planType],
+                customParams: ["style": "dark", "planId": planId, "planType": planType, "progressWorkoutId": currentWorkout?.id ?? ""],
                 onMessageReceived: { message in
                     switch message {
                     case .custom_type(let value):
                         guard let type = value["type"] as? String else { return }
+                        print(value)
+                        print(planId, planType, currentWorkout?.id ?? "")
                         if type == "all_resources_loaded" {
                             withAnimation {
                                 customWorkoutLoading = false
                             }
                             workoutAction = ["workout_activity_action": "start"]
+                        } // handle exit requests depending on where a person comes
+                        else if type == "workout_exit_request" {
+                            showCustomWorkout = false
+                            workoutAction = nil
+                            customWorkoutLoading = true
                         }
                     case .exit_kinestex(_):
                         showCustomWorkout = false
@@ -233,15 +237,15 @@ struct PlanOnboardingView: View {
                     }
 
                     // Current Workout Routine
-                    if let workoutModel = currentWorkoutModel {
-                        WorkoutRoutineView(workout: workoutModel) {
+                    if !currentExercises.isEmpty {
+                        WorkoutRoutineView(
+                            title: currentWorkout?.displayTitle ?? "Current Workout",
+                            totalMinutes: currentWorkout?.total_minutes,
+                            difficultyLevel: currentWorkout?.dif_level,
+                            exercises: currentExercises
+                        ) {
                             showCustomWorkout = true
                         }
-                    } else if currentWorkout != nil {
-                        ProgressView("Loading workout...")
-                            .foregroundColor(.white)
-                            .font(.caption)
-                            .padding(.vertical, 4)
                     }
 
                     // Fetched Plan Detail (collapsible)
@@ -323,7 +327,6 @@ struct PlanOnboardingView: View {
                             planType = ""
                             clientPlan = nil
                             personalPlan = nil
-                            currentWorkoutModel = nil
                             fetchError = nil
                         }) {
                             Text("Clear Stored Plan")
@@ -348,6 +351,10 @@ struct PlanOnboardingView: View {
         if let cw = personalPlan?.current_workout { return cw }
         if let cw = clientPlan?.currentWorkout { return cw }
         return nil
+    }
+
+    private var currentExercises: [WorkoutExerciseItem] {
+        currentWorkout?.processedExercises() ?? []
     }
 
     // MARK: - Plan ID Display (always visible)
@@ -507,6 +514,8 @@ struct PlanOnboardingView: View {
                 UserDefaults.standard.set(id, forKey: "plan_onboarding_plan_id")
                 UserDefaults.standard.set(pt, forKey: "plan_onboarding_plan_type")
                 print("[PlanOnboarding] Stored plan_id: \(id), plan_type: \(pt)")
+            } else if type == "plan_workout_exit_request" || type == "personalized_plan_exit" {
+                showOnboarding = false
             }
 
         case .error_occurred(let value):
@@ -542,31 +551,17 @@ struct PlanOnboardingView: View {
 
         Task {
             let result = await planAPI.fetchPlan(id: targetId)
-            var workoutIdToFetch: String?
             await MainActor.run {
                 switch result {
                 case .success(let plan):
                     clientPlan = plan
                     expandedWeeks = [:]
-                    workoutIdToFetch = plan.currentWorkout?.id
+                    let exercises = plan.currentWorkout?.processedExercises() ?? []
+                    print("[PlanOnboarding] Plan loaded. Current workout: \(plan.currentWorkout?.displayTitle ?? "none") (\(exercises.count) exercises)")
                 case .failure(let error):
                     fetchError = "Failed to load plan: \(error.localizedDescription)"
                 }
                 isFetchingPlan = false
-            }
-
-            // Fetch current workout detail via SDK
-            if let wId = workoutIdToFetch {
-                let wResult = await kinestex.fetchWorkout(id: wId)
-                await MainActor.run {
-                    switch wResult {
-                    case .success(let model):
-                        currentWorkoutModel = model
-                        print("[PlanOnboarding] Workout loaded: \(model.title) (\(model.sequence.count) exercises)")
-                    case .failure(let error):
-                        print("[PlanOnboarding] Workout fetch failed: \(error.localizedDescription)")
-                    }
-                }
             }
 
             // Also fetch personal plan if type is personalized
