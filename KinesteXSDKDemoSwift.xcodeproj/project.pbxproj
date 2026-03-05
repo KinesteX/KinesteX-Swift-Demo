@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB09C1572F59AAFE0025E6B8 /* KinesteXAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = AB09C1562F59AAFE0025E6B8 /* KinesteXAIKit */; };
+		AB09C15A2F59AD150025E6B8 /* KinesteXAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = AB09C1592F59AD150025E6B8 /* KinesteXAIKit */; };
 		AB1BC8862E323E0F00E2F183 /* CameraWorkoutPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BC8852E323E0F00E2F183 /* CameraWorkoutPlayer.swift */; };
 		AB1BC8882E323FB000E2F183 /* WorkoutLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BC8872E323FB000E2F183 /* WorkoutLoaderView.swift */; };
 		AB38544D2F4DCFF1004212E1 /* KinesteXAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = AB38544C2F4DCFF1004212E1 /* KinesteXAIKit */; };
@@ -77,6 +79,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB38544D2F4DCFF1004212E1 /* KinesteXAIKit in Frameworks */,
+				AB09C1572F59AAFE0025E6B8 /* KinesteXAIKit in Frameworks */,
+				AB09C15A2F59AD150025E6B8 /* KinesteXAIKit in Frameworks */,
 				AB4BEA182E27018100169DE9 /* KinesteXAIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,6 +207,8 @@
 			packageProductDependencies = (
 				AB4BEA172E27018100169DE9 /* KinesteXAIKit */,
 				AB38544C2F4DCFF1004212E1 /* KinesteXAIKit */,
+				AB09C1562F59AAFE0025E6B8 /* KinesteXAIKit */,
+				AB09C1592F59AD150025E6B8 /* KinesteXAIKit */,
 			);
 			productName = KinesteXSDKDemoSwift;
 			productReference = ABAEB3332C0CBDE800BD90AD /* KinesteXSDKDemoSwift.app */;
@@ -277,7 +283,7 @@
 			);
 			mainGroup = ABAEB32A2C0CBDE800BD90AD;
 			packageReferences = (
-				AB38544E2F4E499B004212E1 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */,
+				AB09C1582F59AD150025E6B8 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */,
 			);
 			productRefGroup = ABAEB3342C0CBDE800BD90AD /* Products */;
 			projectDirPath = "";
@@ -694,17 +700,26 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AB38544E2F4E499B004212E1 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */ = {
+		AB09C1582F59AD150025E6B8 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/KinesteX/KinesteX-AI-Kit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.9;
+				minimumVersion = 1.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AB09C1562F59AAFE0025E6B8 /* KinesteXAIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KinesteXAIKit;
+		};
+		AB09C1592F59AD150025E6B8 /* KinesteXAIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB09C1582F59AD150025E6B8 /* XCRemoteSwiftPackageReference "KinesteX-AI-Kit" */;
+			productName = KinesteXAIKit;
+		};
 		AB38544C2F4DCFF1004212E1 /* KinesteXAIKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = KinesteXAIKit;

@@ -141,6 +141,40 @@ struct ExerciseCardView: View {
                     }
                 }
                 
+                // Equipment
+                if !exercise.equipment.isEmpty {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Equipment:")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+
+                        ForEach(exercise.equipment) { item in
+                            HStack(spacing: 8) {
+                                AsyncImage(url: URL(string: item.thumbnailURL)) { image in
+                                    image.resizable().aspectRatio(contentMode: .fit)
+                                } placeholder: {
+                                    Color.gray.opacity(0.3)
+                                }
+                                .frame(width: 32, height: 32)
+                                .cornerRadius(6)
+
+                                VStack(alignment: .leading, spacing: 1) {
+                                    Text(item.title).font(.caption).bold()
+                                    Text(item.description)
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
+                                        .lineLimit(1)
+                                    if !item.homeAlternative.isEmpty {
+                                        Text("Home: \(item.homeAlternative)")
+                                            .font(.caption2)
+                                            .foregroundColor(.green)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // Common Mistakes
                 if !exercise.commonMistakes.isEmpty {
                     VStack(alignment: .leading, spacing: 4) {

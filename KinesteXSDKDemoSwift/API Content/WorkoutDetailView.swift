@@ -82,8 +82,44 @@ struct WorkoutDetailView: View {
                 }
                 .padding(.horizontal)
                 
+                // Equipment
+                if !workout.equipment.isEmpty {
+                    Divider()
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Equipment:")
+                            .font(.headline)
+
+                        ForEach(workout.equipment) { item in
+                            HStack(spacing: 12) {
+                                AsyncImage(url: URL(string: item.thumbnailURL)) { image in
+                                    image.resizable().aspectRatio(contentMode: .fit)
+                                } placeholder: {
+                                    Color.gray.opacity(0.3)
+                                }
+                                .frame(width: 48, height: 48)
+                                .cornerRadius(8)
+
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(item.title).font(.subheadline).bold()
+                                    Text(item.description)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                        .lineLimit(2)
+                                    if !item.homeAlternative.isEmpty {
+                                        Text("Home: \(item.homeAlternative)")
+                                            .font(.caption2)
+                                            .foregroundColor(.green)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+
                 Divider()
-                
+
                 // Exercises Sequence
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Exercise Sequence:")
